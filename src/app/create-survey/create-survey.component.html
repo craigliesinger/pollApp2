@@ -1,0 +1,16 @@
+<div class="container head-room">
+  <div class="full center">
+    <h1 class="full">Create New Survey</h1>
+  </div>
+  <br/>
+  <form [formGroup]="newSurveyForm" (ngSubmit)="createSurvey(newSurveyForm.value)">
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title">
+        <mat-error *ngIf="title.hasError('required')">
+          Title is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button class="action-button full" type="submit" [disabled]="newSurveyForm.invalid"><div>Create</div></button>
+    </form>
+</div>

@@ -1,0 +1,216 @@
+/* You can add global styles to this file, and also import other style files */
+// 1. Your custom variables and variable overwrites.
+
+
+// 2. Import default variables and available mixins.
+//@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import './styles-variables.scss';
+@import '../node_modules/@angular/material/theming';
+// always include only once per project
+@include mat-core();
+
+$candy-app-primary: mat-palette($mat-blue, 700);
+$candy-app-accent:  mat-palette($mat-blue, A700, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$candy-app-warn:    mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+
+@include angular-material-theme($candy-app-theme);
+
+body {
+    //display: block;
+    margin: 0px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.container {
+    margin-left: $container;
+    margin-right: $container;
+}
+
+.head-room {
+    margin-top: 60px;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.full {
+    width: 100%;
+}
+
+.three-fourths {
+    width: 75%;
+}
+
+.half {
+    width: 50%;
+}
+
+.third {
+    width: 33%;
+}
+
+.fourth {
+    width: 25%;
+}
+
+.padded-right{
+    padding-right: $margin;
+}
+
+.padded-left{
+    padding-left: $margin;
+}
+
+.padded-sides{
+    padding-right: $margin;
+    padding-left: $margin;
+    box-sizing: border-box;
+}
+
+.left-margin {
+    margin-left: 20px;
+}
+
+.column-width {
+    width: 150px !important;
+    text-align: center;
+}
+
+.center {
+    text-align: center;
+}
+
+.fix-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.float-right {
+    float: right;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.clickable:hover {
+    background-color: $light;
+    color: $text;
+    opacity: 0.5;
+}
+
+.selected {
+    background-color: $primary !important;
+    color: $text !important;
+}
+
+.frosty {
+    background-color: rgba($shade,0.8);
+}
+
+.contain-image {
+    width: 100%;
+    height: 100%;
+}
+
+//SPECIAL MAT-CARDS
+.list-card {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+//HEADINGS
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 200 !important;
+}
+
+.dark-text {
+    color: $secondary-dark; 
+}
+
+.danger {
+    color: $danger;
+}
+//BUTTONS
+
+button {
+    font-weight: 300 !important;
+}
+
+.action-button {
+    background: $primary;
+    color: $text;
+}
+
+.button-150 {
+    width: 150px;
+}
+
+.delete-button {
+    background: $text;
+    color: $danger;
+    width: 100px;
+}
+
+.warning-button {
+    background: $danger;
+    color: $text;
+}
+
+.disabled-button {
+    background: $disabled;
+}
+
+.short-button {
+    height: 30px;
+}
+
+.gray-background {
+    background-color: #fafafa !important;
+}
+
+//RESPONSIVE SIZE STYLE CHANGES
+@media only screen and (max-width: 600px) {
+    .container {
+        margin-left: $margin;
+        margin-right: $margin;
+    } 
+
+    .flex-oneline {
+        flex-wrap: wrap;
+    }
+
+    .half {
+        width: 100%;
+    }
+    
+    .third {
+        width: 100%;
+    }
+
+    .fourth {
+        width: 100%;
+    }
+    .button-150 {
+        width: 100%;
+    }
+    
+    .padded-right{
+        padding-right: 0;
+    }
+
+    .margin-bottom {
+        margin-bottom: $margin;
+    }
+} 
+

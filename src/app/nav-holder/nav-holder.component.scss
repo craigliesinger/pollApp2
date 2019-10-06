@@ -1,0 +1,124 @@
+@import '../../styles-variables.scss';
+
+.portal-container {
+    z-index: 101;
+    width: 100%;
+    height: 100vh;
+    margin-top: 0px;
+}
+
+.my-side-nav {
+    height: 100%;
+    margin-left: 0px;
+    margin-top: 0px;
+    min-width: 275px;
+    max-width: 90%;
+    background: $secondary;
+}
+
+.side-nav-header {
+    padding-left: 40px;
+    padding-right: 40px;
+    margin-bottom: 2px;
+    height: 60px;
+    background-color: $primary;
+    color: $text;
+    font-weight: 300;
+    line-height: 60px;
+    cursor: pointer;
+}
+
+.side-menu-button {
+    z-index: 100;
+    color: $text;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    cursor: pointer;
+}
+
+.mock-toolbar {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 48px;
+    background: $primary !important;
+    color: transparent;
+}
+
+.mock-toolbar-small {
+    display: flex;
+    justify-content: space-between;
+    top: 0;
+    left: 0;
+    height: 48px;
+    background: $primary !important;
+    color: transparent;
+}
+
+.nav-logo {
+     max-height: 32px;
+ }
+
+ .fake-navbar {
+    display: flex;
+    justify-content: left;
+    z-index: 1;
+    color: white;
+    font-weight: 200;
+    font-size: 16px;
+}
+
+.side-nav-button {
+    display: flex;
+    width: 100%;
+}
+
+.account-button {
+    justify-content: right;
+    color: $text;
+    cursor: pointer;
+}
+
+.fixed-right {
+    position: absolute;
+    right: 10px;
+    z-index: 9;
+}
+
+@media (max-width: 960px) {
+ .mock-toolbar {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 48px;
+    background: $primary !important;
+    color: transparent;
+ }
+
+ .mock-toolbar-small {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 48px;
+    background: $primary !important;
+    color: transparent;
+}
+
+ .portal-container {
+    margin-top: 0px;
+ }
+
+.my-side-nav {
+    margin-top: 48px;
+}
+
+.fake-navbar {
+    justify-content: center;
+    width: 100%;
+}
+
+}

@@ -1,0 +1,61 @@
+<mat-card class="login-card">
+    <button mat-raised-button class="full" type="button" (click)="authService.googleSignin()">
+        <div class="google-button">
+          <img class="firebaseui-idp-icon" alt="" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg">
+          <h4 class="left-margin">Sign in with Google</h4>
+        </div>  
+      </button>
+      <br/>
+      <h3 class="full center">--- OR ---</h3>
+    <mat-card-header>
+      <mat-card-title>
+        <h2 *ngIf="!newUser">Login</h2>
+        <h2 *ngIf="newUser">Create Account with Email</h2>
+      
+        <div class="flex" *ngIf="!newUser">
+          <h5 class="padded-right">No Account?</h5> <button mat-stroked-button (click)="setNewUser(true)"><small>SIGN UP</small></button>
+        </div>
+        <div class="flex" *ngIf="newUser">
+          <h5 class="padded-right">Returning User?</h5> <button mat-stroked-button (click)="setNewUser(false)"><small>LOGIN</small></button>
+        </div>
+      </mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="loginForm" (ngSubmit)="tryLogin(loginForm.value)">
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>email</mat-label>
+        <input matInput formControlName="email">
+        <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="email.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full">
+              <mat-label>password</mat-label>
+            <input matInput type="password" name="password" autocomplete="current-password" formControlName="password">
+            <mat-error *ngIf="password.hasError('required')">
+                Password is required
+            </mat-error>
+            <mat-error *ngIf="password.hasError('minlength')">
+                Password must be atleast 6 characters long
+            </mat-error>
+            <mat-error *ngIf="password.hasError('maxlength')">
+                Password must be less than 25 characters long
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field *ngIf="newUser" appearance="outline" class="full">
+              <mat-label>repeat password</mat-label>
+            <input matInput type="password" formControlName="passwordRepeat" [errorStateMatcher]="matcher">
+            <mat-error *ngIf="loginForm.hasError('notSame')">
+                Passwords do not match
+            </mat-error>
+          </mat-form-field>
+      <button mat-raised-button class="action-button full" type="submit" [disabled]="(loginForm.invalid && newUser) || (email.invalid && password.invalid)"><div *ngIf="newUser">Register</div><div *ngIf="!newUser">Login</div></button>
+    </form>
+    <br/>
+    <span class="error">{{errorMessage}}</span>
+
+    <button mat-stroked-button *ngIf="!newUser" type="button" (click)="openResetPasswordDialog()">Forgot Password?</button>
+  </mat-card>

@@ -1,0 +1,25 @@
+.login-card {
+    display: flex;
+    flex-direction: column;
+    max-width: 360px;
+    margin: auto;
+    margin-top: 100px;
+}
+
+.firebaseui-idp-icon {
+    height: 18px;
+    width: 18px;
+}
+
+.google-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+}
+
+.mail-icon {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+}

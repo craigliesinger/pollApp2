@@ -1,0 +1,38 @@
+<mat-sidenav-container class="portal-container">
+    <mat-menu x-position="before" #user="matMenu">
+      <div *ngIf="isLoggedIn; else loggedOut">
+        <button mat-menu-item disabled>{{user_email}}</button>
+        <button mat-menu-item routerLink="account">My Account</button>
+        <button mat-menu-item (click)="tryLogout()">Logout</button>
+      </div>
+      <ng-template #loggedOut>
+        <button mat-menu-item routerLink="/login">Login</button>
+      </ng-template>
+    </mat-menu>
+  <mat-sidenav #sidenav class="my-side-nav" [opened]="screenWidth > 960" [mode]="(screenWidth > 960) ? 'side' : 'over'">
+    <div class="sidenav-header">
+      <mat-toolbar color="primary" class="mock-toolbar-small">
+        <div class="fake-navbar">
+          Poll Espresso
+        </div>
+        <mat-icon class="account-button" [mat-menu-trigger-for]="user">person</mat-icon>
+      </mat-toolbar>
+    </div>
+    <button class="side-nav-button" mat-button routerLink="">Home</button>
+    <button class="side-nav-button" mat-button routerLink="newsurvey">Create Survey</button>
+    <br/>
+  </mat-sidenav>
+
+  <div [ngStyle]="{'display' : (screenWidth > 960) ? 'none' : 'block'}">
+    <mat-icon (click)="sidenav.open()" class="side-menu-button">menu</mat-icon>
+    <mat-toolbar color="primary" class="mock-toolbar">
+        <div class="fake-navbar">
+          Poll Espresso
+        </div>
+        <mat-icon class="account-button fixed-right" [mat-menu-trigger-for]="user">person</mat-icon>
+    </mat-toolbar>
+  </div>
+
+  <router-outlet></router-outlet>
+<br/>
+</mat-sidenav-container>
