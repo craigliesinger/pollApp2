@@ -31,4 +31,9 @@ export class SurveyService {
     })
   }
 
+  /* Get surveys by User ID */
+  getSurveysForUser(userId: string): Observable<Survey[]> {
+    return this.afs.collection<Survey>('surveys', ref => ref.where('owner', '==', userId)).valueChanges()
+  }
+
 }

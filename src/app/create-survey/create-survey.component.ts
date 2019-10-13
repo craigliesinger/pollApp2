@@ -33,6 +33,7 @@ export class CreateSurveyComponent implements OnInit {
     newSurvey.uid = this.survService.generateId()
     newSurvey.url = newSurvey.uid
     newSurvey.title = formValue.title
+    newSurvey.owner = this.authService.getLoggedInUserId()
     this.survService.createSurvey(newSurvey).then(() => {
       this.router.navigate(['/survey/',newSurvey.url]);
     })
