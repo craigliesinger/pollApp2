@@ -1,3 +1,6 @@
-<p>
-  home-screen works!
-</p>
+<div class="container head-room">
+  <h2>Your Previous Surveys</h2>
+  <div *ngFor="let survey of ownedSurveys | async">
+    <p><a [routerLink]="['/survey', survey.url]">{{survey.title}}</a></p>
+  </div>
+</div>

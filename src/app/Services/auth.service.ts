@@ -14,6 +14,7 @@ export class AuthService {
 
   public userIsSignedIn: boolean;
   public userName: string;
+  public userUid: string;
   public user: Observable<User>;
 
   constructor(public afAuth: AngularFireAuth,private afs: AngularFirestore, private router: Router) {
@@ -26,8 +27,19 @@ export class AuthService {
         }
       })
     )
+
+    this.afAuth.auth.onAuthStateChanged(user => {
+      if (!user) {
+        this.userUid = null
+        this.userName = null
+      } else {
+        this.userUid = user.uid
+        this.userName = user.displayName
+      }
+    })
    }
 
+  
   isLoggedIn() {
     return this.afAuth.authState.pipe(first()).toPromise();
   } 
@@ -43,6 +55,7 @@ export class AuthService {
       .then(res => {
         this.userIsSignedIn = true;
         this.userName = this.afAuth.auth.currentUser.displayName;
+        this.userUid = this.afAuth.auth.currentUser.uid;
         this.updateUserData(res.user);
         resolve(res);
       }, err => reject(err))
@@ -66,6 +79,9 @@ export class AuthService {
   async googleSignin() {
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider);
+    this.userIsSignedIn = true;
+    this.userName = this.afAuth.auth.currentUser.displayName;
+    this.userUid = this.afAuth.auth.currentUser.uid;
     return this.updateUserData(credential.user);
   }
 

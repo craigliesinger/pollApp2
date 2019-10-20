@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { SurveyService } from '../Services/survey.service';
+import { Survey } from '../Models/survey';
+import { AuthService } from '../Services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home-screen',
@@ -6,10 +10,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home-screen.component.scss']
 })
 export class HomeScreenComponent implements OnInit {
+  
+  ownedSurveys: Observable<Survey[]>
 
-  constructor() { }
+  constructor(private survService: SurveyService, private auth: AuthService) { }
 
   ngOnInit() {
+    this.ownedSurveys = this.survService.getSurveysForUser(this.auth.getLoggedInUserId())
   }
 
 }
