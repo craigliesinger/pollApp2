@@ -19,6 +19,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { HomeScreenComponent } from './home-screen/home-screen.component';
 import { CreateSurveyComponent } from './create-survey/create-survey.component';
 import { LiveSurveyComponent } from './live-survey/live-survey.component';
+import { CreateQuestionOpenTextComponent } from './create-question-open-text/create-question-open-text.component';
+import { CreateQuestionChoiceComponent } from './create-question-choice/create-question-choice.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { LiveSurveyComponent } from './live-survey/live-survey.component';
     ResetPasswordComponent,
     HomeScreenComponent,
     CreateSurveyComponent,
-    LiveSurveyComponent
+    LiveSurveyComponent,
+    CreateQuestionOpenTextComponent,
+    CreateQuestionChoiceComponent
   ],
   imports: [
     BrowserModule,

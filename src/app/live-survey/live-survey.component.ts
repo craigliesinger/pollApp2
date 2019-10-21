@@ -18,6 +18,9 @@ export class LiveSurveyComponent implements OnInit {
   surv: Survey
   survOneTime: Survey
   tracker: Subscription
+  creatingQuestion: boolean = false
+  showOpen: boolean = false
+  showChoice: boolean = false
 
   constructor(private route: ActivatedRoute, private router: Router, private survService: SurveyService, public auth: AuthService) { }
 
@@ -51,8 +54,15 @@ export class LiveSurveyComponent implements OnInit {
     this.tracker.unsubscribe()
   }
 
-  
+  toggleCreatingQuestion(creating: boolean) {
+    this.creatingQuestion = creating
+    this.showOpen = false
+    this.showChoice = false
+  }
 
-  
+  showOpenForm() {
+    this.creatingQuestion = true
+    this.showOpen = true
+  }
 
 }

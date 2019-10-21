@@ -40,7 +40,7 @@ export class AuthService {
    }
 
   
-  isLoggedIn() {
+  async isLoggedIn() {
     return this.afAuth.authState.pipe(first()).toPromise();
   } 
 

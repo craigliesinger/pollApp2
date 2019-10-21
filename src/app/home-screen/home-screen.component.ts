@@ -15,8 +15,10 @@ export class HomeScreenComponent implements OnInit {
 
   constructor(private survService: SurveyService, private auth: AuthService) { }
 
-  ngOnInit() {
-    this.ownedSurveys = this.survService.getSurveysForUser(this.auth.getLoggedInUserId())
+  async ngOnInit() {
+    if (await this.auth.isLoggedIn()) {
+      this.ownedSurveys = this.survService.getSurveysForUser(this.auth.getLoggedInUserId())
+    }
   }
 
 }

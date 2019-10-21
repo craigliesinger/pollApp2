@@ -1,0 +1,16 @@
+<div class="container head-room">
+  <div class="full center">
+    <h4 class="full">Create Question</h4>
+  </div>
+  <br/>
+  <form [formGroup]="newOTquesetionForm" (ngSubmit)="createQuestion(newOTquesetionForm.value)">
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Question</mat-label>
+        <input matInput formControlName="question">
+        <mat-error *ngIf="question.hasError('required')">
+          Question is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button class="action-button full" type="submit" [disabled]="newOTquesetionForm.invalid"><div>Create</div></button>
+    </form>
+</div>
