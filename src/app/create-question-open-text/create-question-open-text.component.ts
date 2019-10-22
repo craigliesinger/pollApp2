@@ -31,6 +31,7 @@ export class CreateQuestionOpenTextComponent implements OnInit {
     let newOTquestion = new OpenText
     newOTquestion.uid = this.survService.generateId()
     newOTquestion.question = formValue.question
+    newOTquestion.type = "openText"
     this.survService.createOpenTextQuestionForSurvey(newOTquestion,this.surveyId).then(() => {
       this.creatingQuestion.emit(false)
       let snackBarRef = this.snackBar.open('Question Created', '' , {
@@ -45,5 +46,8 @@ export class CreateQuestionOpenTextComponent implements OnInit {
     })
   }
 
+  closeNoSave() {
+    this.creatingQuestion.emit(false)
+  }
 
 }

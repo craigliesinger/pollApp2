@@ -97,6 +97,12 @@ body {
     float: right;
 }
 
+.stick-top-right {
+    position: absolute !important;
+    right: 10px;
+    top: 10px;
+}
+
 .clickable {
     cursor: pointer;
 }

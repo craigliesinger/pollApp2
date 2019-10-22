@@ -9,9 +9,23 @@
   <br/>
   <div *ngIf="auth.userUid == host && !creatingQuestion" class="full flex">
     <button mat-raised-button type="button" class="action-button" (click)="showOpenForm()">Create Open Text Question</button>
-    <button mat-raised-button type="button" class="action-button left-margin">Create Multiple Choice Question</button>
+    <button mat-raised-button type="button" class="action-button left-margin" (click)="showChoiceForm()">Create Multiple Choice Question</button>
   </div>
   <div *ngIf="auth.userUid == host && creatingQuestion && showOpen" class="full flex">
-    <app-create-question-open-text [surveyId]="surv.uid" (creatingQuestion)="toggleCreatingQuestion($event)"></app-create-question-open-text>
+    <app-create-question-open-text [surveyId]="surv.uid" (creatingQuestion)="toggleCreatingQuestion($event)" class="full"></app-create-question-open-text>
   </div>
+  <div *ngIf="auth.userUid == host && creatingQuestion && showChoice" class="full flex">
+    <app-create-question-choice [surveyId]="surv.uid" (creatingQuestion)="toggleCreatingQuestion($event)" class="full"></app-create-question-choice>
+  </div>
+
+  <div *ngFor="let question of questions | async">
+    <br/>
+    <mat-card>
+      {{question.question}}
+    </mat-card>
+  </div>
+
 </div>
+<br/>
+
+

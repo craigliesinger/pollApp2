@@ -14,7 +14,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavHolderComponent } from './nav-holder/nav-holder.component';
 import { LoginComponent } from './login/login.component';
-import { MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatMenuModule, MatDialogModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatSliderModule } from '@angular/material';
+import { MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatMenuModule, MatDialogModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatSliderModule, MatSlideToggleModule } from '@angular/material';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { HomeScreenComponent } from './home-screen/home-screen.component';
 import { CreateSurveyComponent } from './create-survey/create-survey.component';
@@ -41,7 +41,7 @@ import { CreateQuestionChoiceComponent } from './create-question-choice/create-q
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule, ReactiveFormsModule,
-    MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatMenuModule, MatDialogModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatSliderModule
+    MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatMenuModule, MatDialogModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatSliderModule, MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

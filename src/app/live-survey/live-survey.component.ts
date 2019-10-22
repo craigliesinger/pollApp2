@@ -5,6 +5,7 @@ import { Survey } from '../Models/survey';
 import { AuthService } from '../Services/auth.service';
 import { Subscription, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { Question } from '../Models/question';
 
 @Component({
   selector: 'app-live-survey',
@@ -21,6 +22,7 @@ export class LiveSurveyComponent implements OnInit {
   creatingQuestion: boolean = false
   showOpen: boolean = false
   showChoice: boolean = false
+  questions: Observable<Question[]>
 
   constructor(private route: ActivatedRoute, private router: Router, private survService: SurveyService, public auth: AuthService) { }
 
@@ -34,11 +36,14 @@ export class LiveSurveyComponent implements OnInit {
       this.host = res.owner
       this.survOneTime = res
       this.survService.changeSurveyCount(this.survOneTime,1)
+      this.questions = this.survService.getAllQuestionsForSurvey(res.uid)
     })
 
     this.survey.subscribe(res => {
       this.surv = res
     })
+
+    
 
     this.tracker = this.router.events.subscribe(ev => {
       if (ev instanceof NavigationStart) {
@@ -63,6 +68,11 @@ export class LiveSurveyComponent implements OnInit {
   showOpenForm() {
     this.creatingQuestion = true
     this.showOpen = true
+  }
+
+  showChoiceForm() {
+    this.creatingQuestion = true
+    this.showChoice = true
   }
 
 }
