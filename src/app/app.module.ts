@@ -11,10 +11,12 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
+import { ChartsModule } from 'ng2-charts';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavHolderComponent } from './nav-holder/nav-holder.component';
 import { LoginComponent } from './login/login.component';
-import { MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatMenuModule, MatDialogModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatSliderModule, MatSlideToggleModule } from '@angular/material';
+import { MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatMenuModule, MatDialogModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatSliderModule, MatSlideToggleModule, MatRadioModule, MatCheckboxModule } from '@angular/material';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { HomeScreenComponent } from './home-screen/home-screen.component';
 import { CreateSurveyComponent } from './create-survey/create-survey.component';
@@ -41,7 +43,8 @@ import { CreateQuestionChoiceComponent } from './create-question-choice/create-q
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule, ReactiveFormsModule,
-    MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatMenuModule, MatDialogModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatSliderModule, MatSlideToggleModule,
+    MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatMenuModule, MatDialogModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatSliderModule, MatSlideToggleModule, MatRadioModule, MatCheckboxModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

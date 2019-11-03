@@ -18,9 +18,9 @@ export class CreateQuestionChoiceComponent implements OnInit {
   allowMultiSelection:boolean = false
 
   @Input() surveyId: string;
-  @Output() creatingQuestion = new EventEmitter<boolean>();
+  @Output() creatingQuestion = new EventEmitter<Choice>();
 
-  constructor(public authService: AuthService, private survService: SurveyService, private router: Router, private fb: FormBuilder, private snackBar: MatSnackBar) { }
+  constructor(public authService: AuthService, private survService: SurveyService, private router: Router, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.newMCquesetionForm = this.fb.group({
@@ -60,23 +60,11 @@ export class CreateQuestionChoiceComponent implements OnInit {
     newMCquestion.options = formValue.choices
     newMCquestion.multiSelect = this.allowMultiSelection
     newMCquestion.type = "multiChoice"
-    console.log(newMCquestion)
-    this.survService.createMultiChoiceQuestionForSurvey(newMCquestion,this.surveyId).then(() => {
-      this.creatingQuestion.emit(false)
-      let snackBarRef = this.snackBar.open('Question Created', '' , {
-        duration: 1000,
-      })
-    })
-    .catch((e) => {
-      this.creatingQuestion.emit(false)
-      let snackBarRef = this.snackBar.open(e, '' , {
-        duration: 5000,
-      })
-    })
+    this.creatingQuestion.emit(newMCquestion)
   }
 
   closeNoSave() {
-    this.creatingQuestion.emit(false)
+    this.creatingQuestion.emit()
   }
 
 }

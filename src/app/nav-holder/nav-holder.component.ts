@@ -16,7 +16,7 @@ export class NavHolderComponent implements OnInit {
   constructor(public authService: AuthService) {
     this.authService.afAuth.authState.subscribe(
       (auth) => {
-        if (auth == null) {
+        if (auth == null || auth.isAnonymous) {
           console.log("Logged out");
           this.isLoggedIn = false;
           this.user_displayName = '';

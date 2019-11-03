@@ -11,6 +11,27 @@
           Title is <strong>required</strong>
         </mat-error>
       </mat-form-field>
+<br/>
+<h4>Prepare Questions</h4>
+      <div *ngIf="!creatingQuestion" class="full flex">
+          <button mat-raised-button type="button" class="action-button" (click)="showOpenForm()">Create Open Text Question</button>
+          <button mat-raised-button type="button" class="action-button left-margin" (click)="showChoiceForm()">Create Multiple Choice Question</button>
+        </div>
+        <div *ngIf="creatingQuestion && showOpen" class="full flex">
+          <app-create-question-open-text [surveyId]="newId" (creatingQuestion)="addQuestion($event)" class="full"></app-create-question-open-text>
+        </div>
+        <div *ngIf="creatingQuestion && showChoice" class="full flex">
+          <app-create-question-choice [surveyId]="newId" (creatingQuestion)="addQuestion($event)" class="full"></app-create-question-choice>
+        </div>
+      
+        <div *ngFor="let question of preppedQuestions">
+          <br/>
+          <mat-card>
+            {{question.question}}
+          </mat-card>
+        </div>
+        <br/>
+
       <button mat-raised-button class="action-button full" type="submit" [disabled]="newSurveyForm.invalid"><div>Create</div></button>
     </form>
 </div>

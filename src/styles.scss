@@ -35,6 +35,15 @@ body {
     margin-top: 60px;
 }
 
+.thin-sides {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+}
+
+.bottom-room {
+    margin-bottom: 40px;
+}
+
 .flex {
     display: flex;
     align-items: center;
@@ -49,7 +58,7 @@ body {
 }
 
 .half {
-    width: 50%;
+    width: 47%;
 }
 
 .third {
@@ -86,6 +95,9 @@ body {
 .center {
     text-align: center;
 }
+.space-center {
+    justify-content: space-around;
+}
 
 .fix-bottom {
     position: absolute;
@@ -101,6 +113,16 @@ body {
     position: absolute !important;
     right: 10px;
     top: 10px;
+}
+.stick-top-right-relative {
+    right: 10px;
+    top: -10px;
+    float: right;
+}
+
+.fixed-right {
+    position: absolute !important;
+    right: 20px;
 }
 
 .clickable {

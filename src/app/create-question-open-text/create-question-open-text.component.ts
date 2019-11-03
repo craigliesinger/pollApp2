@@ -16,9 +16,9 @@ export class CreateQuestionOpenTextComponent implements OnInit {
   newOTquesetionForm: FormGroup; 
   question: FormControl = new FormControl('', Validators.compose([Validators.required]))
   @Input() surveyId: string;
-  @Output() creatingQuestion = new EventEmitter<boolean>();
+  @Output() creatingQuestion = new EventEmitter<OpenText>();
 
-  constructor(public authService: AuthService, private survService: SurveyService, private router: Router, private fb: FormBuilder, private snackBar: MatSnackBar) { }
+  constructor(public authService: AuthService, private survService: SurveyService, private router: Router, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.newOTquesetionForm = this.fb.group({
@@ -32,22 +32,11 @@ export class CreateQuestionOpenTextComponent implements OnInit {
     newOTquestion.uid = this.survService.generateId()
     newOTquestion.question = formValue.question
     newOTquestion.type = "openText"
-    this.survService.createOpenTextQuestionForSurvey(newOTquestion,this.surveyId).then(() => {
-      this.creatingQuestion.emit(false)
-      let snackBarRef = this.snackBar.open('Question Created', '' , {
-        duration: 1000,
-      })
-    })
-    .catch((e) => {
-      this.creatingQuestion.emit(false)
-      let snackBarRef = this.snackBar.open(e, '' , {
-        duration: 5000,
-      })
-    })
+    this.creatingQuestion.emit(newOTquestion)
   }
 
   closeNoSave() {
-    this.creatingQuestion.emit(false)
+    this.creatingQuestion.emit()
   }
 
 }

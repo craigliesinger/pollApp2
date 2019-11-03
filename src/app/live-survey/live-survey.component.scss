@@ -1,0 +1,47 @@
+@import '../../styles-variables.scss';
+
+.question-card {
+    cursor: pointer;
+    transition-duration: .3s;
+    transition-property: transform;
+}
+.question-card:hover {
+    opacity: 0.9;
+    background-color: $info;
+    color: white;
+    transform: translateY(-5px);
+    //transition-duration: .3s;
+    //transition-property: transform;
+}
+
+.hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: rgba(0,0,0,0);
+    text-align: center;
+    line-height: 100%;
+}
+
+.hover-overlay:hover {
+    height: 100%;
+    color: white;
+}
+
+.live {
+    color: $danger;
+    font-weight: bold;
+}
+
+.question-container {
+    position: absolute !important;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    padding: 10px;
+    background: $secondary-light;
+    overflow: scroll;
+}

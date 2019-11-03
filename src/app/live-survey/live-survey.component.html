@@ -1,29 +1,106 @@
-<div class="container head-room" *ngIf="surv">
+<div class="container head-room thin-sides" *ngIf="surv">
   <h2>{{surv.title}}</h2>
-  <h5>Active Participants: {{surv.activeParticipants}}</h5>
-  <h5 *ngIf="auth.userUid == host">Average Rating: {{surv.averageRating}}</h5>
+  <h5>Active Participants: {{userCount}}</h5>
+  <h5 *ngIf="auth.userUid == host">Average Rating: {{surv.combinedRating / userCount}}</h5>
   <div *ngIf="auth.userUid != host">
-    <mat-slider min="0" max="10" step="1" value="5" tickInterval="1"></mat-slider>
+    <mat-slider min="-5" max="5" step="1" value="0" tickInterval="1" (change)="sendRatingUpdate($event)"></mat-slider>
   </div>
 
   <br/>
-  <div *ngIf="auth.userUid == host && !creatingQuestion" class="full flex">
-    <button mat-raised-button type="button" class="action-button" (click)="showOpenForm()">Create Open Text Question</button>
-    <button mat-raised-button type="button" class="action-button left-margin" (click)="showChoiceForm()">Create Multiple Choice Question</button>
-  </div>
-  <div *ngIf="auth.userUid == host && creatingQuestion && showOpen" class="full flex">
-    <app-create-question-open-text [surveyId]="surv.uid" (creatingQuestion)="toggleCreatingQuestion($event)" class="full"></app-create-question-open-text>
-  </div>
-  <div *ngIf="auth.userUid == host && creatingQuestion && showChoice" class="full flex">
-    <app-create-question-choice [surveyId]="surv.uid" (creatingQuestion)="toggleCreatingQuestion($event)" class="full"></app-create-question-choice>
-  </div>
+  
 
-  <div *ngFor="let question of questions | async">
-    <br/>
-    <mat-card>
-      {{question.question}}
-    </mat-card>
+  <div *ngIf="liveQuestion" id="liveQuestion" class="half">
+      <button mat-icon-button type="button" (click)="removeLiveQuestion()" aria-label="close" class="stick-top-right-relative">
+          <mat-icon>close</mat-icon>
+      </button>
+    <h3>{{liveQuestion.question}}</h3>
+      <form *ngIf="liveQuestion.type == 'openText'" [formGroup]="userQuestionForm" (ngSubmit)="submitUserOpenTextAnswer(userQuestionForm.value)">
+          <mat-form-field appearance="outline" class="full">
+            <mat-label>Response</mat-label>
+            <input matInput formControlName="response">
+          </mat-form-field>
+          <button mat-raised-button class="action-button full" type="submit" [disabled]="userQuestionForm.invalid || answerSubmitted ||auth.userUid == host">
+            <div *ngIf="!answerSubmitted">Submit</div>
+            <div *ngIf="answerSubmitted">Answer Submitted</div>
+          </button>
+      </form>
+
+      <form *ngIf="liveQuestion.type == 'multiChoice' && !liveQuestion.multiSelect" [formGroup]="userChoiceQuestionForm" (ngSubmit)="submitUserMultiChoiceAnswer(userChoiceQuestionForm.value)">
+        <mat-radio-group formControlName="options">
+          <div  *ngFor="let op of liveQuestion.options">
+              <mat-radio-button [value]="op">{{op}}</mat-radio-button><br/>
+          </div>
+        </mat-radio-group><br/>
+        <button mat-raised-button class="action-button full" type="submit" [disabled]="userChoiceQuestionForm.invalid || answerSubmitted ||auth.userUid == host">
+          <div *ngIf="!answerSubmitted">Submit</div>
+          <div *ngIf="answerSubmitted">Answer Submitted</div>
+        </button>
+      </form>
+
+      <form *ngIf="liveQuestion.type == 'multiChoice' && liveQuestion.multiSelect" [formGroup]="userChoiceMultiQuestionForm" (ngSubmit)="submitUserMultiChoiceMultiAnswer(userChoiceMultiQuestionForm.value)">
+        <div formArrayName="choices">
+          <div *ngFor="let op of liveQuestion.options; let i=index">
+            <mat-checkbox [formControlName]="i" (change)="noItemSelected()">{{op}}</mat-checkbox>
+          </div>
+        </div><br/>
+        <button mat-raised-button class="action-button full" type="submit" [disabled]="!pickedAnOption || answerSubmitted ||auth.userUid == host">
+          <div *ngIf="!answerSubmitted">Submit</div>
+          <div *ngIf="answerSubmitted">Answer Submitted</div>
+        </button>
+      </form>
+      <br/>
+      <div style="display: block;" *ngIf="liveQuestion.answers.length > 0">
+          <canvas baseChart 
+            [datasets]="barChartData"
+            [legend]="barChartLegend"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [chartType]="barChartType">
+          </canvas>
+        </div>
   </div>
+<div class="question-container">
+  <h2>Prepared Questions</h2>
+    <div *ngFor="let question of questions | async; let i=index">
+        <br/>
+        <div >
+          <mat-card class="question-card" (click)="setQuestionLive(question)">
+            <div class="hover-overlay"><h4>🚀</h4></div>
+            <mat-card-header>
+              <div *ngIf="question.type == 'openText'"><mat-icon>short_text</mat-icon></div>
+              <div *ngIf="question.type == 'multiChoice' && !question.multiSelect"><mat-icon>radio_button_checked</mat-icon></div>
+              <div *ngIf="question.type == 'multiChoice' && question.multiSelect"><mat-icon>check_box</mat-icon></div><span class="left-margin"></span>
+              {{question.question}}
+              <div *ngIf="liveQuestion" class="padded-left">
+                <div *ngIf="question.uid == liveQuestion.uid" class="live">
+                  LIVE
+                </div>
+              </div>
+              <div class="fixed-right">
+                N: {{question.answers.length}}
+              </div>
+    
+            </mat-card-header>
+            <mat-card-content>
+    
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <br/>
+      <div *ngIf="auth.userUid == host && !creatingQuestion" class="full flex space-center fix-bottom bottom-room">
+          <button mat-raised-button type="button" class="action-button" (click)="showOpenForm()">Create Open Text Question</button>
+          <button mat-raised-button type="button" class="action-button" (click)="showChoiceForm()">Create Multiple Choice Question</button>
+        </div>
+        <br/>
+        <div *ngIf="auth.userUid == host && creatingQuestion && showOpen" class="full flex">
+            <app-create-question-open-text [surveyId]="surv.uid" (creatingQuestion)="creatingOTQuestion($event)" class="full"></app-create-question-open-text>
+          </div>
+          <div *ngIf="auth.userUid == host && creatingQuestion && showChoice" class="full flex">
+            <app-create-question-choice [surveyId]="surv.uid" (creatingQuestion)="creatingMCQuestion($event)" class="full"></app-create-question-choice>
+          </div>
+</div>
+
 
 </div>
 <br/>
