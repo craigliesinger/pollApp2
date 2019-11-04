@@ -49,7 +49,16 @@
         </button>
       </form>
       <br/>
-      <div style="display: block;" *ngIf="liveQuestion.answers.length > 0">
+      <div *ngIf="liveQuestion.answers.length > 0 && liveQuestion.type == 'openText'">
+        Sentiment: {{liveQuestion.sentiment.score}}
+        <div *ngFor="let ans of liveQuestion.answers">
+          <mat-card class="light-margin">
+            "{{ans.responce[0]}}"
+          </mat-card>
+          
+        </div>
+      </div>
+      <div style="display: block;" *ngIf="liveQuestion.answers.length > 0 && liveQuestion.type != 'openText'">
           <canvas baseChart 
             [datasets]="barChartData"
             [legend]="barChartLegend"
@@ -57,7 +66,7 @@
             [options]="barChartOptions"
             [chartType]="barChartType">
           </canvas>
-        </div>
+      </div>
   </div>
 <div class="question-container">
   <h2>Prepared Questions</h2>

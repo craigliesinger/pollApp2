@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 import { SurveyService } from '../Services/survey.service';
 import { Survey } from '../Models/survey';
 import { AuthService } from '../Services/auth.service';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, interval } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Question, OpenText, Choice, Answer } from '../Models/question';
 import { MatSnackBar } from '@angular/material';
@@ -37,7 +37,6 @@ export class LiveSurveyComponent implements OnInit {
   answerSubmitted: boolean = false
   answeredQuestions: string[] = []
   lastRatingValue: number = 0
-
   // FOR CHARTING
   public barChartOptions: ChartOptions = {
     responsive: true,
@@ -113,7 +112,7 @@ export class LiveSurveyComponent implements OnInit {
       if (res.liveQuestionUid != null) {
         this.survService.getQuestion(res.uid,res.liveQuestionUid).subscribe(qRes => {
           this.launchQuestion(qRes)
-          this.createBarChartForChoiceQuestion(qRes)
+          this.createVisualForQuestion(qRes)
         })
       } else {
         this.liveQuestion = null
@@ -149,8 +148,12 @@ export class LiveSurveyComponent implements OnInit {
     if (q.type == 'multiChoice') {
       this.createBarChartForChoiceQuestion(q)
     } else if (q.type == "openText") {
-      // Word Cloud
+      this.createTextAnalysis(q)
     }
+  }
+
+  createTextAnalysis(q: Question) {
+    // anything for sentiment?
   }
 
   createBarChartForChoiceQuestion(q: Question) {
