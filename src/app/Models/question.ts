@@ -1,4 +1,4 @@
-import { FieldValue } from '@google-cloud/firestore';
+import { firestore } from 'firebase-admin';
 
 export class Question {
     uid: string;
@@ -6,9 +6,10 @@ export class Question {
     numberOfResponces: number = 0;
     status: string = "prep";
     type: string;
-    answers: FieldValue | Answer[] = [];
+    answers: Answer[] = [];
     multiSelect: boolean = false;
     options: string[] = [];
+    sentiment?: Sentiment;
 }
 
 export class OpenText extends Question {
@@ -23,4 +24,15 @@ export class Choice extends Question {
 export class Answer {
     responder: string;
     responce: string[];
+    sentiment?: Sentiment;
+}
+
+export class Sentiment {
+    score: number;
+    negative: string[];
+    positive: string[];
+    comparative: number;
+    calculation: any[];
+    tokens: string[];
+    words: string[];
 }

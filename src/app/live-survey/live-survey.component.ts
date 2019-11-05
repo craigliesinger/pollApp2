@@ -30,6 +30,7 @@ export class LiveSurveyComponent implements OnInit {
   currentUser: string
   userCount: number
   liveQuestion: OpenText | Choice
+  //liveQuestionObservable: Observable<Question>
   userQuestionForm: FormGroup
   userChoiceQuestionForm: FormGroup 
   userChoiceMultiQuestionForm: FormGroup
@@ -37,6 +38,9 @@ export class LiveSurveyComponent implements OnInit {
   answerSubmitted: boolean = false
   answeredQuestions: string[] = []
   lastRatingValue: number = 0
+  vibeHistory: number[] = []
+  sentimentAssessment: string
+  sortPositive: boolean = true
   // FOR CHARTING
   public barChartOptions: ChartOptions = {
     responsive: true,
@@ -89,6 +93,8 @@ export class LiveSurveyComponent implements OnInit {
         if (this.currentUser != this.host) {
           this.survService.addUserAttendee(this.survOneTime, this.currentUser)
           this.survService.changeSurveyRating(this.survOneTime, this.lastRatingValue)
+        } else {
+          this.monitorVibe()
         }
       } else {
         this.auth.afAuth.auth.signInAnonymously().then(res => {
@@ -110,6 +116,7 @@ export class LiveSurveyComponent implements OnInit {
         this.userCount = 0
       }
       if (res.liveQuestionUid != null) {
+        //this.liveQuestionObservable = this.survService.getQuestion(res.uid,res.liveQuestionUid)
         this.survService.getQuestion(res.uid,res.liveQuestionUid).subscribe(qRes => {
           this.launchQuestion(qRes)
           this.createVisualForQuestion(qRes)
@@ -132,6 +139,24 @@ export class LiveSurveyComponent implements OnInit {
     return this.userChoiceMultiQuestionForm.get('choices') as FormArray
   }
 
+  monitorVibe() {
+    let timer = interval(1000)
+    timer.subscribe(_ => {
+      if (this.userCount > 0) {
+        let totalRating = this.surv.combinedRating as number
+        this.logVibe(totalRating / this.userCount)
+      }
+    })
+  }
+
+  logVibe(value: number) {
+    if (this.vibeHistory.length < 60) {
+      this.vibeHistory.push(value)
+    } else {
+      this.vibeHistory = [value, ...this.vibeHistory.slice(0,59)]
+    }
+  }
+
   noItemSelected() {
     let count = this.choices.length
     for (let i=0; i < count; i++) {
@@ -152,8 +177,41 @@ export class LiveSurveyComponent implements OnInit {
     }
   }
 
+  sortSentiment() {
+    if (this.sortPositive) {
+      this.liveQuestion.answers.sort((a,b) => {
+        return b.sentiment.score - a.sentiment.score
+      })
+      this.sortPositive = false
+    } else {
+      this.liveQuestion.answers.sort((a,b) => {
+        return a.sentiment.score - b.sentiment.score
+      })
+      this.sortPositive = true
+    }
+  }
+
   createTextAnalysis(q: Question) {
     // anything for sentiment?
+    if (q.sentiment) {
+      let relativeScore = q.sentiment.score / q.sentiment.words.length
+      let comp = q.sentiment.comparative
+      if (comp > 1) {
+        this.sentimentAssessment = "positive"
+      } else if (comp < -1) {
+        this.sentimentAssessment = "negative"
+      } else if (comp > 0.1) {
+        this.sentimentAssessment = "slightly positive"
+      } else if (comp < -0.1) {
+        this.sentimentAssessment = "slightly negative"
+      } else {
+        if (q.sentiment.words.length / q.sentiment.tokens.length > 0.25) {
+          this.sentimentAssessment = "mixed"
+        } else {
+          this.sentimentAssessment = "neutral"
+        }
+      }
+    }
   }
 
   createBarChartForChoiceQuestion(q: Question) {

@@ -50,12 +50,20 @@
       </form>
       <br/>
       <div *ngIf="liveQuestion.answers.length > 0 && liveQuestion.type == 'openText'">
-        Sentiment: {{liveQuestion.sentiment.score}}
-        <div *ngFor="let ans of liveQuestion.answers">
-          <mat-card class="light-margin">
-            "{{ans.responce[0]}}"
-          </mat-card>
-          
+        <div matTooltip="Overall sentiment score: {{liveQuestion.sentiment.score}}">Overall Sentiment: {{sentimentAssessment}}</div>
+        <button mat-stroked-button (click)="sortSentiment()">Sort by sentiment</button>
+        <div class="written-answers-block light-margin">
+            <div *ngFor="let ans of liveQuestion.answers">
+                <mat-card class="light-margin">
+                  "{{ans.responce[0]}}" 
+                  <div *ngIf="ans.sentiment">
+                      <div matTooltip="Sentiment score: {{ans.sentiment.score}}" *ngIf="ans.sentiment.score > 5" class="sentiment-emoji">❤️</div>
+                      <div matTooltip="Sentiment score: {{ans.sentiment.score}}" *ngIf="ans.sentiment.score > 1 && ans.sentiment.score <= 5" class="sentiment-emoji">👍</div>
+                      <div matTooltip="Sentiment score: {{ans.sentiment.score}}" *ngIf="ans.sentiment.score < -1 && ans.sentiment.score >= -5" class="sentiment-emoji">👎</div>
+                      <div matTooltip="Sentiment score: {{ans.sentiment.score}}" *ngIf="ans.sentiment.score < -5" class="sentiment-emoji">😡</div>
+                  </div>
+                </mat-card>
+              </div>
         </div>
       </div>
       <div style="display: block;" *ngIf="liveQuestion.answers.length > 0 && liveQuestion.type != 'openText'">

@@ -13,14 +13,15 @@ exports.updateSentiment = functions.firestore.document('surveys/{surveyId}/quest
         return null
     } else {
         let text = "";
-        const answer = data.answers as any[];
+        var answer = data.answers as any[];
         answer.forEach(ans => {
-            text = text + ans.responce[0] + " "
+            text = text + ans.responce[0] + " ";
         });
         const Sentiment = require('sentiment');
         const sentiment = new Sentiment();
         const result = sentiment.analyze(text);
-        console.dir(result); 
-        return change.after.ref.set({sentiment: result}, {merge: true});
+        const subResult = sentiment.analyze(answer[answer.length-1].responce[0]);
+        answer[answer.length-1].sentiment = subResult
+        return change.after.ref.set({sentiment: result, answers: answer}, {merge: true});
     }
 });
