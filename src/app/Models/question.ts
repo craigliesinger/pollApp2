@@ -6,7 +6,7 @@ export class Question {
     numberOfResponces: number = 0;
     status: string = "prep";
     type: string;
-    answers: Answer[] = [];
+    answers: Answer[] | firestore.FieldValue = [];
     multiSelect: boolean = false;
     options: string[] = [];
     sentiment?: Sentiment;

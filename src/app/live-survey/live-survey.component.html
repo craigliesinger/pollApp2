@@ -2,6 +2,16 @@
   <h2>{{surv.title}}</h2>
   <h5>Active Participants: {{userCount}}</h5>
   <h5 *ngIf="auth.userUid == host">Average Rating: {{surv.combinedRating / userCount}}</h5>
+  <div style="display: block;" *ngIf="auth.userUid == host && userCount > 0 && vibeChartData.length > 0" class="half">
+      <canvas baseChart 
+        [datasets]="vibeChartData"
+        [labels]="lineChartLabels"
+        [legend]="barChartLegend"
+        [colors]="lineChartColors"
+        [options]="lineChartOptions"
+        [chartType]="lineChartType">
+      </canvas>
+  </div>
   <div *ngIf="auth.userUid != host">
     <mat-slider min="-5" max="5" step="1" value="0" tickInterval="1" (change)="sendRatingUpdate($event)"></mat-slider>
   </div>

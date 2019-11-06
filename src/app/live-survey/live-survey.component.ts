@@ -9,7 +9,7 @@ import { Question, OpenText, Choice, Answer } from '../Models/question';
 import { MatSnackBar } from '@angular/material';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
-import { Label } from 'ng2-charts';
+import { Label, Color } from 'ng2-charts';
 
 @Component({
   selector: 'app-live-survey',
@@ -42,6 +42,59 @@ export class LiveSurveyComponent implements OnInit {
   sentimentAssessment: string
   sortPositive: boolean = true
   // FOR CHARTING
+  public vibeChartData: ChartDataSets[] = [{}]
+  public lineChartLabels: Label[] = [
+    "1","2","3","4","5","6","7","8","9","10",
+    "11","12","13","14","15","16","17","18","19","20",
+    "21","22","23","24","25","26","27","28","29","30",
+    "31","32","33","34","35","36","37","38","39","40",
+    "41","42","43","44","45","46","47","48","49","50",
+    "51","52","53","54","55","56","57","58","59","60"
+  ]
+  public lineChartType: ChartType = 'line'
+  public lineChartOptions: ChartOptions = {
+    animation:{
+      duration: 0
+    },
+    hover: {
+        animationDuration: 0, // duration of animations when hovering an item
+    },
+    responsiveAnimationDuration: 0, // animation duration after a resize
+    responsive: true,
+    scales : {
+      yAxes: [{
+        gridLines: {
+          display:false
+        }, 
+        ticks: {
+          stepSize: 5,
+          max : 5,
+          min: -5
+        }
+      }],
+      xAxes: [{
+        display: false,
+        gridLines: {
+          display:false
+        },
+        ticks: {
+          stepSize: 10,
+          max : 60,
+          min: 0
+        }
+      }]
+    }
+  }
+  public lineChartColors: Color[] = [
+    { // grey
+      backgroundColor: 'rgba(148,159,177,0.2)',
+      borderColor: 'rgba(148,159,177,1)',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    }
+  ];
   public barChartOptions: ChartOptions = {
     responsive: true,
     scales : {
@@ -153,8 +206,9 @@ export class LiveSurveyComponent implements OnInit {
     if (this.vibeHistory.length < 60) {
       this.vibeHistory.push(value)
     } else {
-      this.vibeHistory = [value, ...this.vibeHistory.slice(0,59)]
+      this.vibeHistory = [...this.vibeHistory.slice(1,60),value]
     }
+    this.vibeChartData = [{data: this.vibeHistory, label: "vibe"}]
   }
 
   noItemSelected() {
