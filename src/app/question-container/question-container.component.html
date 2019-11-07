@@ -1,0 +1,40 @@
+<div class="q-contain">
+    <h2>Prepared Questions</h2>
+      <div *ngFor="let question of questions | async; let i=index">
+          <br/>
+          <div >
+            <mat-card class="question-card" (click)="setQuestionLive(question)">
+              <div class="hover-overlay"><h4>🚀</h4></div>
+              <mat-card-header>
+                <div *ngIf="question.type == 'openText'"><mat-icon>short_text</mat-icon></div>
+                <div *ngIf="question.type == 'multiChoice' && !question.multiSelect"><mat-icon>radio_button_checked</mat-icon></div>
+                <div *ngIf="question.type == 'multiChoice' && question.multiSelect"><mat-icon>check_box</mat-icon></div><span class="left-margin"></span>
+                {{question.question}}
+                <div *ngIf="liveQuestion" class="padded-left">
+                  <div *ngIf="question.uid == liveQuestion.uid" class="live">
+                    LIVE
+                  </div>
+                </div>
+                <div class="fixed-right" *ngIf="question.answers">
+                  N: {{question.answers.length}}
+                </div>
+                <div class="fixed-right" *ngIf="!question.answers">
+                  N: 0
+                </div>
+              </mat-card-header>
+            </mat-card>
+          </div>
+        </div>
+        <br/>
+        <div *ngIf="!creatingQuestion" class="full flex space-center fix-bottom bottom-room">
+            <button mat-raised-button type="button" class="action-button" (click)="showOpenForm()">Create Open Text Question</button>
+            <button mat-raised-button type="button" class="action-button" (click)="showChoiceForm()">Create Multiple Choice Question</button>
+          </div>
+          <br/>
+          <div *ngIf="creatingQuestion && showOpen" class="full flex">
+              <app-create-question-open-text [surveyId]="survOneTime.uid" (creatingQuestion)="creatingOTQuestion($event)" class="full"></app-create-question-open-text>
+            </div>
+            <div *ngIf="creatingQuestion && showChoice" class="full flex">
+              <app-create-question-choice [surveyId]="survOneTime.uid" (creatingQuestion)="creatingMCQuestion($event)" class="full"></app-create-question-choice>
+            </div>
+  </div>

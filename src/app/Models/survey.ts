@@ -1,12 +1,10 @@
-import { firestore } from 'firebase-admin';
-
 export class Survey {
     uid: string;
     title: string;
     url: string;
-    activeParticipants: String[] | firestore.FieldValue;
+    activeParticipants: String[];
     averageRating: number = 0.5;
-    combinedRating: number | firestore.FieldValue;
+    combinedRating: number;
     maxUsers: number = 10;
     live: boolean = true;
     owner: string;

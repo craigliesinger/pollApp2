@@ -23,6 +23,7 @@ import { CreateSurveyComponent } from './create-survey/create-survey.component';
 import { LiveSurveyComponent } from './live-survey/live-survey.component';
 import { CreateQuestionOpenTextComponent } from './create-question-open-text/create-question-open-text.component';
 import { CreateQuestionChoiceComponent } from './create-question-choice/create-question-choice.component';
+import { QuestionContainerComponent } from './question-container/question-container.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { CreateQuestionChoiceComponent } from './create-question-choice/create-q
     CreateSurveyComponent,
     LiveSurveyComponent,
     CreateQuestionOpenTextComponent,
-    CreateQuestionChoiceComponent
+    CreateQuestionChoiceComponent,
+    QuestionContainerComponent
   ],
   imports: [
     BrowserModule,

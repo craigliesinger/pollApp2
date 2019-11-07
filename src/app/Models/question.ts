@@ -1,12 +1,10 @@
-import { firestore } from 'firebase-admin';
-
 export class Question {
     uid: string;
     question: string;
     numberOfResponces: number = 0;
     status: string = "prep";
     type: string;
-    answers: Answer[] | firestore.FieldValue = [];
+    answers: Answer[];
     multiSelect: boolean = false;
     options: string[] = [];
     sentiment?: Sentiment;

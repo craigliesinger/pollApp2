@@ -53,21 +53,21 @@ export class SurveyService {
   addUserAttendee(survey: Survey, userId: string) {
     let ref = this.afs.doc<Survey>('surveys/'+survey.uid)
     ref.update({
-      activeParticipants: firebase.firestore.FieldValue.arrayUnion(userId)
+      activeParticipants: firebase.firestore.FieldValue.arrayUnion(userId) as any
     })
   }
 
   removeUserAttendee(survey: Survey, userId: string) {
     let ref = this.afs.doc<Survey>('surveys/'+survey.uid)
     ref.update({
-      activeParticipants: firebase.firestore.FieldValue.arrayRemove(userId)
+      activeParticipants: firebase.firestore.FieldValue.arrayRemove(userId) as any
     })
   }
 
   changeSurveyRating(survey: Survey, delta: number) {
     let ref = this.afs.doc<Survey>('surveys/'+survey.uid)
     ref.update({
-      combinedRating: firebase.firestore.FieldValue.increment(delta)
+      combinedRating: firebase.firestore.FieldValue.increment(delta) as any
     })
   }
 
@@ -132,7 +132,7 @@ export class SurveyService {
     let newAnswer: Answer = {responce: answer, responder: responder}
     let ref = this.afs.doc<Question>('surveys/'+surveyUid+'/questions/'+question.uid)
     ref.update({
-      answers: firebase.firestore.FieldValue.arrayUnion(newAnswer)
+      answers: firebase.firestore.FieldValue.arrayUnion(newAnswer) as any
     })
 
   }

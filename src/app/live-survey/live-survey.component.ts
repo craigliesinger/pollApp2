@@ -18,19 +18,18 @@ import { Label, Color } from 'ng2-charts';
 })
 export class LiveSurveyComponent implements OnInit {
 
+  screenWidth: number;
+
+  expQuestion: boolean = false
   survey: Observable<Survey>
   host: string
   surv: Survey
   survOneTime: Survey
   tracker: Subscription
-  creatingQuestion: boolean = false
-  showOpen: boolean = false
-  showChoice: boolean = false
   questions: Observable<Question[]>
   currentUser: string
   userCount: number
   liveQuestion: OpenText | Choice
-  //liveQuestionObservable: Observable<Question>
   userQuestionForm: FormGroup
   userChoiceQuestionForm: FormGroup 
   userChoiceMultiQuestionForm: FormGroup
@@ -38,18 +37,14 @@ export class LiveSurveyComponent implements OnInit {
   answerSubmitted: boolean = false
   answeredQuestions: string[] = []
   lastRatingValue: number = 0
-  vibeHistory: number[] = []
+  currentTotalVibe: number = 0
+  vibeHistory: number[] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
   sentimentAssessment: string
   sortPositive: boolean = true
   // FOR CHARTING
   public vibeChartData: ChartDataSets[] = [{}]
   public lineChartLabels: Label[] = [
-    "1","2","3","4","5","6","7","8","9","10",
-    "11","12","13","14","15","16","17","18","19","20",
-    "21","22","23","24","25","26","27","28","29","30",
-    "31","32","33","34","35","36","37","38","39","40",
-    "41","42","43","44","45","46","47","48","49","50",
-    "51","52","53","54","55","56","57","58","59","60"
+    "1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"
   ]
   public lineChartType: ChartType = 'line'
   public lineChartOptions: ChartOptions = {
@@ -64,7 +59,7 @@ export class LiveSurveyComponent implements OnInit {
     scales : {
       yAxes: [{
         gridLines: {
-          display:false
+          display:true
         }, 
         ticks: {
           stepSize: 5,
@@ -75,7 +70,7 @@ export class LiveSurveyComponent implements OnInit {
       xAxes: [{
         display: false,
         gridLines: {
-          display:false
+          display: false
         },
         ticks: {
           stepSize: 10,
@@ -132,7 +127,13 @@ export class LiveSurveyComponent implements OnInit {
   }
 
   async ngOnInit() {
-    console.log('ng on init called')
+     // set screenWidth on page load
+     this.screenWidth = window.innerWidth;
+     window.onresize = () => {
+       // set screenWidth on screen size change
+       this.screenWidth = window.innerWidth;
+     };
+
     const id = this.route.snapshot.paramMap.get('uid');
     this.survService.getSurveyWithIdOnce(id)
     this.survey = this.survService.getSurveyWithId(id)
@@ -146,9 +147,7 @@ export class LiveSurveyComponent implements OnInit {
         if (this.currentUser != this.host) {
           this.survService.addUserAttendee(this.survOneTime, this.currentUser)
           this.survService.changeSurveyRating(this.survOneTime, this.lastRatingValue)
-        } else {
-          this.monitorVibe()
-        }
+        } 
       } else {
         this.auth.afAuth.auth.signInAnonymously().then(res => {
           this.currentUser = res.user.uid
@@ -169,7 +168,6 @@ export class LiveSurveyComponent implements OnInit {
         this.userCount = 0
       }
       if (res.liveQuestionUid != null) {
-        //this.liveQuestionObservable = this.survService.getQuestion(res.uid,res.liveQuestionUid)
         this.survService.getQuestion(res.uid,res.liveQuestionUid).subscribe(qRes => {
           this.launchQuestion(qRes)
           this.createVisualForQuestion(qRes)
@@ -177,6 +175,11 @@ export class LiveSurveyComponent implements OnInit {
       } else {
         this.liveQuestion = null
       }
+      if (this.currentTotalVibe != res.combinedRating && this.currentUser == this.host && this.userCount > 0) {
+        this.currentTotalVibe = res.combinedRating
+        this.logVibe(this.currentTotalVibe / this.userCount)
+      }
+      
     })
 
     this.tracker = this.router.events.subscribe(ev => {
@@ -192,22 +195,8 @@ export class LiveSurveyComponent implements OnInit {
     return this.userChoiceMultiQuestionForm.get('choices') as FormArray
   }
 
-  monitorVibe() {
-    let timer = interval(1000)
-    timer.subscribe(_ => {
-      if (this.userCount > 0) {
-        let totalRating = this.surv.combinedRating as number
-        this.logVibe(totalRating / this.userCount)
-      }
-    })
-  }
-
   logVibe(value: number) {
-    if (this.vibeHistory.length < 60) {
-      this.vibeHistory.push(value)
-    } else {
-      this.vibeHistory = [...this.vibeHistory.slice(1,60),value]
-    }
+    this.vibeHistory = [...this.vibeHistory.slice(1,20),value]
     this.vibeChartData = [{data: this.vibeHistory, label: "vibe"}]
   }
 
@@ -288,13 +277,7 @@ export class LiveSurveyComponent implements OnInit {
     this.barChartData.push({data: tempData, label: 'Responces'})
   }
 
-  setQuestionLive(q: Question) {
-    this.survService.setQuestionLive(this.survOneTime.uid, q.uid)
-  }
 
-  removeLiveQuestion() {
-    this.survService.removeLiveQuestion(this.survOneTime.uid)
-  }
 
   checkIfAnswered(q: Question) {
     this.answerSubmitted = false
@@ -369,57 +352,15 @@ export class LiveSurveyComponent implements OnInit {
     }
   }
 
+  removeLiveQuestion() {
+    this.survService.removeLiveQuestion(this.survOneTime.uid)
+  }
+
   ngOnDestroy() {
     this.tracker.unsubscribe()
   }
 
-  creatingOTQuestion(newQuestion: OpenText) {
-    this.creatingQuestion = false
-    this.showOpen = false
-    this.showChoice = false
-
-    if (newQuestion) {
-      this.survService.createOpenTextQuestionForSurvey(newQuestion,this.surv.uid).then(() => {
-        let snackBarRef = this.snackBar.open('Question Created', '' , {
-          duration: 1000,
-        })
-      })
-      .catch((e) => {
-        let snackBarRef = this.snackBar.open(e, '' , {
-          duration: 5000,
-        })
-      })
-    }
-  }
-
-  creatingMCQuestion(newQuestion: Choice) {
-    this.creatingQuestion = false
-    this.showOpen = false
-    this.showChoice = false
-
-    if (newQuestion) {
-      this.survService.createMultiChoiceQuestionForSurvey(newQuestion,this.surv.uid).then(() => {
-        let snackBarRef = this.snackBar.open('Question Created', '' , {
-          duration: 1000,
-        })
-      })
-      .catch((e) => {
-        let snackBarRef = this.snackBar.open(e, '' , {
-          duration: 5000,
-        })
-      })
-    }
-  }
-
-  showOpenForm() {
-    this.creatingQuestion = true
-    this.showOpen = true
-  }
-
-  showChoiceForm() {
-    this.creatingQuestion = true
-    this.showChoice = true
-  }
+  
 
   sendRatingUpdate(ev) {
     let delta = ev.value - this.lastRatingValue
