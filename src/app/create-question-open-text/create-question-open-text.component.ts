@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { AuthService } from '../Services/auth.service';
 import { SurveyService } from '../Services/survey.service';
 import { OpenText } from '../Models/question';
-import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-create-question-open-text',

@@ -1,4 +1,5 @@
 <div class="container head-room">
+  <app-find-survey-by-shortcode></app-find-survey-by-shortcode>
   <button mat-raised-button type="button" [routerLink]="['/newsurvey']" class="action-button">Create New Survey</button>
   <h2>Your Previous Surveys</h2>
   <div *ngFor="let survey of ownedSurveys | async">

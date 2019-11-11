@@ -1,10 +1,10 @@
-<mat-card>
+<mat-card class="scroll-y">
   <button mat-icon-button type="button" (click)="closeNoSave()" aria-label="close" class="stick-top-right">
       <mat-icon>close</mat-icon>
   </button>
   <div class="container head-room">
     <div class="full center">
-      <h4 class="full">Create Question</h4>
+      <h4 class="full">Multiple Choice Question</h4>
     </div>
     <br/>
     <form [formGroup]="newMCquesetionForm" (ngSubmit)="createQuestion(newMCquesetionForm.value)">

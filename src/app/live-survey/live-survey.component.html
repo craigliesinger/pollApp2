@@ -7,9 +7,10 @@
     </div>
     <div class="container head-room thin-sides" *ngIf="surv">
         <h2>{{surv.title}}</h2>
+        <h3 *ngIf="surv.shortCode">Sharing Code: {{surv.shortCode}}</h3>
         <h5>Active Participants: {{userCount}}</h5>
-        <div *ngIf="auth.userUid == host" class="vibe-block flex full">
-            <div style="display: block;" *ngIf="userCount > 0 && vibeChartData.length > 0" class="three-fourths">
+        <div *ngIf="auth.userUid == host && vibeChartData.length > 0" class="vibe-block flex full">
+            <div style="display: block;" class="three-fourths">
                 <canvas baseChart 
                   [datasets]="vibeChartData"
                   [labels]="lineChartLabels"
@@ -21,7 +22,7 @@
             </div>
             <div class="fourth center">
               <h2 class="no-margin">Vibe</h2>
-              <div class="vibe-number" [ngClass]="{green: surv.combinedRating > 0, red: surv.combinedRating < 0}">{{surv.combinedRating / userCount}}</div>
+              <div class="vibe-number" [ngClass]="{green: surv.combinedRating > 0, red: surv.combinedRating < 0}">{{surv.combinedRating / userCount | number:'1.0-1'}}</div>
             </div>
         </div>
       

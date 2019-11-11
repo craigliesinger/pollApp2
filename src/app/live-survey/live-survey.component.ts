@@ -109,11 +109,6 @@ export class LiveSurveyComponent implements OnInit {
   public barChartType: ChartType = 'bar'
   public barChartData: ChartDataSets[] = [{}]
 
-  @HostListener('window:beforeunload', ['$event'])
-      beforeunloadHandler(event) {
-        this.removeAttendee()
-      }
-
   constructor(private route: ActivatedRoute, private router: Router, private survService: SurveyService, public auth: AuthService, private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.userQuestionForm = this.fb.group({
       response: new FormControl('', Validators.compose([Validators.required]))
@@ -146,13 +141,13 @@ export class LiveSurveyComponent implements OnInit {
         this.currentUser = this.auth.userUid
         if (this.currentUser != this.host) {
           this.survService.addUserAttendee(this.survOneTime, this.currentUser)
-          this.survService.changeSurveyRating(this.survOneTime, this.lastRatingValue)
+          this.survService.removeUserAttendeeOnDisconnect(this.survOneTime, this.currentUser)
         } 
       } else {
         this.auth.afAuth.auth.signInAnonymously().then(res => {
           this.currentUser = res.user.uid
           this.survService.addUserAttendee(this.survOneTime, this.currentUser)
-          this.survService.changeSurveyRating(this.survOneTime, this.lastRatingValue)
+          this.survService.removeUserAttendeeOnDisconnect(this.survOneTime, this.currentUser)
         })
       }
       
@@ -161,7 +156,10 @@ export class LiveSurveyComponent implements OnInit {
 
     this.survey.subscribe(res => {
       this.surv = res
-      let uCount = res.activeParticipants as String[]
+      let uCount = []
+      if (res.activeParticipants) {
+        let uCount = res.activeParticipants
+      } 
       if (uCount) {
         this.userCount = uCount.length
       } else {
@@ -175,20 +173,16 @@ export class LiveSurveyComponent implements OnInit {
       } else {
         this.liveQuestion = null
       }
-      if (this.currentTotalVibe != res.combinedRating && this.currentUser == this.host && this.userCount > 0) {
+      if (this.currentTotalVibe != res.combinedRating && this.currentUser == this.host) {
         this.currentTotalVibe = res.combinedRating
-        this.logVibe(this.currentTotalVibe / this.userCount)
+        if (this.userCount == 0) {
+          this.logVibe(0)
+        } else {
+          this.logVibe(this.currentTotalVibe / this.userCount)
+        }
       }
       
     })
-
-    this.tracker = this.router.events.subscribe(ev => {
-      if (ev instanceof NavigationStart) {
-        //remove 1 user count
-        this.removeAttendee()
-      }
-    })
-
   }
 
   get choices() {
@@ -277,8 +271,6 @@ export class LiveSurveyComponent implements OnInit {
     this.barChartData.push({data: tempData, label: 'Responces'})
   }
 
-
-
   checkIfAnswered(q: Question) {
     this.answerSubmitted = false
     this.answeredQuestions.forEach(aq => {
@@ -344,29 +336,17 @@ export class LiveSurveyComponent implements OnInit {
     this.answeredQuestions.push(this.liveQuestion.uid)
   }
 
-
-  removeAttendee() {
-    if (this.currentUser != this.host) {
-      this.survService.changeSurveyRating(this.surv, -this.lastRatingValue)
-      this.survService.removeUserAttendee(this.survOneTime, this.currentUser)
-    }
-  }
-
   removeLiveQuestion() {
     this.survService.removeLiveQuestion(this.survOneTime.uid)
   }
 
-  ngOnDestroy() {
-    this.tracker.unsubscribe()
-  }
-
-  
-
   sendRatingUpdate(ev) {
+    this.survService.lastUserRating = ev.value
     let delta = ev.value - this.lastRatingValue
     console.log(delta)
     this.survService.changeSurveyRating(this.surv, delta)
     this.lastRatingValue = ev.value
+    this.survService.removeUserAttendeeOnDisconnect(this.survOneTime, this.currentUser)
   }
 
 }

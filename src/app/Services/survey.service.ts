@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from "@angular/fire/firestore";
+import { AngularFireFunctions } from '@angular/fire/functions';
 import { Survey } from '../Models/survey';
 import { Observable } from 'rxjs';
 import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 import { take } from 'rxjs/operators';
 import { Question, OpenText, Choice, Answer } from '../Models/question';
 
@@ -12,7 +15,9 @@ import { Question, OpenText, Choice, Answer } from '../Models/question';
 })
 export class SurveyService {
 
-  constructor(private readonly afs: AngularFirestore) { }
+  public lastUserRating: number = 0
+
+  constructor(private readonly afs: AngularFirestore, private fns: AngularFireFunctions) { }
 
   /* Generate random ID */
   generateId() {
@@ -43,17 +48,11 @@ export class SurveyService {
     return this.afs.collection<Survey>('surveys', ref => ref.where('owner', '==', userId)).valueChanges()
   }
 
-  /* Change count of Users in survey 
-  changeSurveyCount(survey: Survey, count: number) {
-    const increment = firestore.FieldValue.increment(count)
-    const survLoc = this.afs.doc<Survey>('surveys/'+survey.uid)
-    survLoc.update({activeParticipants: increment})
-  }*/
-
   addUserAttendee(survey: Survey, userId: string) {
     let ref = this.afs.doc<Survey>('surveys/'+survey.uid)
     ref.update({
-      activeParticipants: firebase.firestore.FieldValue.arrayUnion(userId) as any
+      activeParticipants: firebase.firestore.FieldValue.arrayUnion(userId) as any,
+      lastUserAddTimestamp: firebase.firestore.FieldValue.serverTimestamp()
     })
   }
 
@@ -62,6 +61,19 @@ export class SurveyService {
     ref.update({
       activeParticipants: firebase.firestore.FieldValue.arrayRemove(userId) as any
     })
+  }
+
+  removeUserAttendeeOnDisconnect(survey: Survey, userId: string) {
+    let ref = firebase.database().ref('/surveys/'+survey.uid+'/'+userId)
+    ref.onDisconnect().cancel()
+    ref.onDisconnect().set({
+      rating: -this.lastUserRating
+    })
+    console.log('preped to change: ', -this.lastUserRating)
+    //ref.onDisconnect().update({
+    //  activeParticipants: firebase.firestore.FieldValue.arrayRemove(userId) as any,
+    //  combinedRating: firebase.firestore.FieldValue.increment(-this.lastUserRating) as any
+    //})
   }
 
   changeSurveyRating(survey: Survey, delta: number) {
@@ -134,7 +146,22 @@ export class SurveyService {
     ref.update({
       answers: firebase.firestore.FieldValue.arrayUnion(newAnswer) as any
     })
+  }
 
+  /* Get a new short code and assign to survey */
+  assignShortCode(survId) {
+    this.fns.httpsCallable('addShortCode')({survId: survId}).toPromise()
+      .then(res => {
+        console.log({res})
+      }, err => {
+        console.log({err})
+      }
+    )}
+
+  /* Get survey by short code */
+  getSurveyWithShortcode(code: string): Observable<Survey[]> {
+    console.log(code)
+    return this.afs.collection<Survey>('surveys', ref => ref.where('shortCode', '==', code).limit(1)).valueChanges()
   }
 
 }

@@ -9,6 +9,7 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
+import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { ChartsModule } from 'ng2-charts';
@@ -24,6 +25,7 @@ import { LiveSurveyComponent } from './live-survey/live-survey.component';
 import { CreateQuestionOpenTextComponent } from './create-question-open-text/create-question-open-text.component';
 import { CreateQuestionChoiceComponent } from './create-question-choice/create-question-choice.component';
 import { QuestionContainerComponent } from './question-container/question-container.component';
+import { FindSurveyByShortcodeComponent } from './find-survey-by-shortcode/find-survey-by-shortcode.component';
 
 @NgModule({
   declarations: [
@@ -36,12 +38,13 @@ import { QuestionContainerComponent } from './question-container/question-contai
     LiveSurveyComponent,
     CreateQuestionOpenTextComponent,
     CreateQuestionChoiceComponent,
-    QuestionContainerComponent
+    QuestionContainerComponent,
+    FindSurveyByShortcodeComponent
   ],
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule, AngularFireAuthModule, AngularFireStorageModule,
+    AngularFirestoreModule, AngularFireAuthModule, AngularFireStorageModule, AngularFireFunctionsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule, ReactiveFormsModule,

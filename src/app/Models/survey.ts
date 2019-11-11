@@ -9,4 +9,8 @@ export class Survey {
     live: boolean = true;
     owner: string;
     liveQuestionUid?: string;
+    lastUserAddTimestamp?: any
+    shortCode?: string
 }
+
+

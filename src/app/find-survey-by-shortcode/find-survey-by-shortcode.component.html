@@ -1,0 +1,16 @@
+
+  <div class="container head-room">
+    <div class="full center">
+      <h2 class="full">Join Survey</h2>
+      <h4>Enter the 5 digit code provided by your host to join their survey</h4>
+    </div>
+    <br/>
+    <form [formGroup]="findSurveyForm" (ngSubmit)="searchForSurvey(findSurveyForm.value)">
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Code</mat-label>
+          <input matInput type="text" formControlName="code" pattern=".{5,5}" minlength="5" maxlength="5">
+        </mat-form-field>
+        <button mat-raised-button class="action-button full" type="submit" [disabled]="findSurveyForm.invalid || code.invalid"><div>Join</div></button>
+      </form>
+  </div>
+  <br/>
