@@ -32,7 +32,7 @@ export class FindSurveyByShortcodeComponent implements OnInit {
         let goToUrl = res[0].url
         this.router.navigate(['/survey/',goToUrl])
       } else {
-        let snackBarRef = this.snackBar.open("No survey found. Please check the code and try again.", '' , {
+        let snackBarRef = this.snackBar.open("⚠️  No survey found. Please check the code and try again.", '' , {
           duration: 5000,
         })
       }

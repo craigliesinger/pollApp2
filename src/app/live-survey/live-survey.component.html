@@ -1,5 +1,5 @@
 <mat-sidenav-container class="portal-container">
-    <mat-sidenav #sidenav position="end" class="my-side-nav-right" [opened]="screenWidth > 960" [mode]="(screenWidth > 960) ? 'side' : 'over'">
+    <mat-sidenav #sidenav position="end" class="my-side-nav-right" [opened]="screenWidth > 960 && auth.userUid == host" [mode]="(screenWidth > 960) ? 'side' : 'over'">
         <app-question-container class="" [questions]="questions" [liveQuestion]="liveQuestion" [survOneTime]="survOneTime"></app-question-container>
     </mat-sidenav>
     <div *ngIf="auth.userUid == host" [ngStyle]="{'display' : (screenWidth > 960) ? 'none' : 'block'}">

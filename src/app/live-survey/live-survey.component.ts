@@ -150,8 +150,10 @@ export class LiveSurveyComponent implements OnInit {
           this.survService.removeUserAttendeeOnDisconnect(this.survOneTime, this.currentUser)
         })
       }
-      
       this.questions = this.survService.getAllQuestionsForSurvey(res.uid)
+      if (!res.shortCode || res.shortCode == "") {
+        this.survService.assignShortCode(res.uid)
+      }
     })
 
     this.survey.subscribe(res => {

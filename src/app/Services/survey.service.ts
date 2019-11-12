@@ -35,6 +35,7 @@ export class SurveyService {
 
   /* Create a new survey */
   createSurvey(survey) {
+    survey.lastUserAddTimestamp = firebase.firestore.FieldValue.serverTimestamp()
     return new Promise<any>((resolve, reject) => {
       this.afs.doc<any>('surveys/'+survey.uid).set(Object.assign({}, survey))
       .then(res => {
@@ -69,11 +70,6 @@ export class SurveyService {
     ref.onDisconnect().set({
       rating: -this.lastUserRating
     })
-    console.log('preped to change: ', -this.lastUserRating)
-    //ref.onDisconnect().update({
-    //  activeParticipants: firebase.firestore.FieldValue.arrayRemove(userId) as any,
-    //  combinedRating: firebase.firestore.FieldValue.increment(-this.lastUserRating) as any
-    //})
   }
 
   changeSurveyRating(survey: Survey, delta: number) {
