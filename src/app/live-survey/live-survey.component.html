@@ -5,7 +5,7 @@
     <div *ngIf="auth.userUid == host" [ngStyle]="{'display' : (screenWidth > 960) ? 'none' : 'block'}">
       <div class="side-menu-button" (click)="sidenav.open()"><mat-icon>menu</mat-icon>Questions</div>
     </div>
-    <div class="container head-room thin-sides" *ngIf="surv">
+    <div class="container head-room thin-sides center" *ngIf="surv">
         <h2>{{surv.title}}</h2>
         <h3 *ngIf="surv.shortCode">Sharing Code: {{surv.shortCode}}</h3>
         <h5>Active Participants: {{userCount}}</h5>
@@ -33,8 +33,8 @@
         <br/>
         
       
-        <div *ngIf="liveQuestion" id="liveQuestion" class="full">
-            <button mat-icon-button type="button" (click)="removeLiveQuestion()" aria-label="close" class="stick-top-right-relative">
+        <div *ngIf="liveQuestion" id="liveQuestion" class="full left">
+            <button *ngIf="auth.userUid == host" mat-icon-button type="button" (click)="removeLiveQuestion()" aria-label="close" class="stick-top-right-relative">
                 <mat-icon>close</mat-icon>
             </button>
           <h3>{{liveQuestion.question}}</h3>
