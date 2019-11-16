@@ -1,7 +1,7 @@
   <mat-menu x-position="before" #user="matMenu">
       <div *ngIf="isLoggedIn; else loggedOut">
         <button mat-menu-item disabled>{{user_email}}</button>
-        <button mat-menu-item routerLink="account">My Account</button>
+        <button mat-menu-item routerLink="/account">My Account</button>
         <button mat-menu-item (click)="tryLogout()">Logout</button>
       </div>
       <ng-template #loggedOut>
@@ -11,7 +11,7 @@
   <div>
     <mat-toolbar color="primary" class="mock-toolbar">
         <div class="fake-navbar">
-            <a class="no-style" [routerLink]="['/']">Poll Espresso</a>
+            <a class="no-style" [routerLink]="['/']">Vybe Survey</a>
         </div>
         <mat-icon class="account-button fixed-right" [mat-menu-trigger-for]="user">person</mat-icon>
     </mat-toolbar>

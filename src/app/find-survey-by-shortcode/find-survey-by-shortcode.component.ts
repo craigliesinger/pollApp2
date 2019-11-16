@@ -26,7 +26,6 @@ export class FindSurveyByShortcodeComponent implements OnInit {
 
   async searchForSurvey(formValue) {
     let code = formValue.code
-    console.log('in func')
     this.survService.getSurveyWithShortcode(code).subscribe(res => {
       if (res.length > 0) {
         let goToUrl = res[0].url

@@ -1,4 +1,4 @@
-<mat-card class="scroll-y">
+<mat-card class="">
   <button mat-icon-button type="button" (click)="closeNoSave()" aria-label="close" class="stick-top-right">
       <mat-icon>close</mat-icon>
   </button>
@@ -23,7 +23,7 @@
             <mat-form-field appearance="outline" class="full">
               <mat-label>Option {{i + 1}}</mat-label>
               <input matInput [formControlName]="i">
-              <button *ngIf="i > 1" matSuffix mat-icon-button type="button" (click)="removeChoice(i)" aria-label="delete" class="">
+              <button *ngIf="choices.length > 2" matSuffix mat-icon-button type="button" (click)="removeChoice(i)" aria-label="delete" class="">
                   <mat-icon>delete</mat-icon>
               </button>
               
@@ -32,16 +32,18 @@
               </mat-error>
             </mat-form-field>
           </div>
+        </div>
+        <div class="flex space-between">
           <button mat-flat-button type="button" (click)="addChoice()" color="primary">Add Option</button>
+          <mat-slide-toggle
+            class=""
+            color="primary"
+            [checked]="allowMultiSelection"
+            (change)="toggleMultiSelect($event)">
+            Allow Multiple Selection
+          </mat-slide-toggle>
         </div>
         <br/>
-        <mat-slide-toggle
-          class=""
-          color="primary"
-          [checked]="allowMultiSelection"
-          (change)="toggleMultiSelect($event)">
-          Allow Multiple Selection
-        </mat-slide-toggle>
         <button mat-raised-button class="action-button full" type="submit" [disabled]="newMCquesetionForm.invalid"><div>Create</div></button>
       </form>
   </div>

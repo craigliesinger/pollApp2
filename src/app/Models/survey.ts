@@ -1,3 +1,5 @@
+import { Plan } from './user';
+
 export class Survey {
     uid: string;
     title: string;
@@ -11,6 +13,7 @@ export class Survey {
     liveQuestionUid?: string;
     lastUserAddTimestamp?: any
     shortCode?: string
+    hostPlan: Plan = Plan.Free
 }
 
 

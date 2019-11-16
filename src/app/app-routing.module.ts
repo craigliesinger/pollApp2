@@ -7,6 +7,7 @@ import { HomeScreenComponent } from './home-screen/home-screen.component';
 import { CreateSurveyComponent } from './create-survey/create-survey.component';
 import { LiveSurveyComponent } from './live-survey/live-survey.component';
 import { QuestionContainerComponent } from './question-container/question-container.component';
+import { UserAccountComponent } from './user-account/user-account.component';
 
 const routes: Routes = [
   { path: '', component: NavHolderComponent,
@@ -14,11 +15,13 @@ const routes: Routes = [
       { path: '', component: HomeScreenComponent }, 
       { path: 'newsurvey', component: CreateSurveyComponent },
       { path: 'survey/:uid', component: LiveSurveyComponent },
-      { path: 'survey/:uid/q', component: QuestionContainerComponent }
+      { path: 'survey/:uid/q', component: QuestionContainerComponent },
+      { path: 'login', component: LoginComponent},
+      { path: 'account', component: UserAccountComponent},
+      { path: 'resetpassword', component: ResetPasswordComponent}
     ] 
-  },
-  { path: 'login', component: LoginComponent},
-  { path: 'resetpassword', component: ResetPasswordComponent}
+  }
+  
 ];
 
 @NgModule({

@@ -1,14 +1,15 @@
 <mat-sidenav-container class="portal-container">
     <mat-sidenav #sidenav position="end" class="my-side-nav-right" [opened]="screenWidth > 960 && auth.userUid == host" [mode]="(screenWidth > 960) ? 'side' : 'over'">
-        <app-question-container class="" [questions]="questions" [liveQuestion]="liveQuestion" [survOneTime]="survOneTime"></app-question-container>
+        <app-question-container class="" [questions]="questions" [liveQuestion]="liveQuestion" [survOneTime]="survOneTime" [hostPlan]="hostPlan"></app-question-container>
     </mat-sidenav>
     <div *ngIf="auth.userUid == host" [ngStyle]="{'display' : (screenWidth > 960) ? 'none' : 'block'}">
       <div class="side-menu-button" (click)="sidenav.open()"><mat-icon>menu</mat-icon>Questions</div>
     </div>
-    <div class="container head-room thin-sides center" *ngIf="surv">
+    <div class="container head-room thin-sides center max600" *ngIf="surv">
         <h2>{{surv.title}}</h2>
         <h3 *ngIf="surv.shortCode">Sharing Code: {{surv.shortCode}}</h3>
         <h5>Active Participants: {{userCount}}</h5>
+        <mat-divider *ngIf="auth.userUid != host"></mat-divider>
         <div *ngIf="auth.userUid == host && vibeChartData.length > 0" class="vibe-block flex full">
             <div style="display: block;" class="three-fourths">
                 <canvas baseChart 
@@ -25,13 +26,15 @@
               <div class="vibe-number" [ngClass]="{green: surv.combinedRating > 0, red: surv.combinedRating < 0}">{{surv.combinedRating / userCount | number:'1.0-1'}}</div>
             </div>
         </div>
-      
-        <div *ngIf="auth.userUid != host">
-          <mat-slider min="-5" max="5" step="1" value="0" tickInterval="1" (change)="sendRatingUpdate($event)"></mat-slider>
+      <h5 *ngIf="auth.userUid != host">The Vybe Meter</h5>
+        <div *ngIf="auth.userUid != host" class="flex center space-center">
+          <mat-icon>sentiment_very_dissatisfied</mat-icon>
+          <mat-slider min="-5" max="5" step="1" value="0" tickInterval="0" (change)="sendRatingUpdate($event)" class="slider"></mat-slider>
+          <mat-icon>sentiment_very_satisfied</mat-icon>
         </div>
-      
+        <h6 *ngIf="auth.userUid != host">Use this to discreetly and anonymously give feedback to the presenter.  Move left when you are lost, confused, disagree, etc.  Move right when you get it, agree, are happy, etc.</h6>
         <br/>
-        
+        <mat-divider></mat-divider><br/>
       
         <div *ngIf="liveQuestion" id="liveQuestion" class="full left">
             <button *ngIf="auth.userUid == host" mat-icon-button type="button" (click)="removeLiveQuestion()" aria-label="close" class="stick-top-right-relative">
@@ -44,7 +47,8 @@
                   <input matInput formControlName="response">
                 </mat-form-field>
                 <button mat-raised-button class="action-button full" type="submit" [disabled]="userQuestionForm.invalid || answerSubmitted ||auth.userUid == host">
-                  <div *ngIf="!answerSubmitted">Submit</div>
+                  <div *ngIf="!answerSubmitted && auth.userUid != host">Submit</div>
+                  <div *ngIf="!answerSubmitted && auth.userUid == host"><i>Submit is disabled as you are the host</i></div>
                   <div *ngIf="answerSubmitted">Answer Submitted</div>
                 </button>
             </form>
@@ -56,7 +60,8 @@
                 </div>
               </mat-radio-group><br/>
               <button mat-raised-button class="action-button full" type="submit" [disabled]="userChoiceQuestionForm.invalid || answerSubmitted ||auth.userUid == host">
-                <div *ngIf="!answerSubmitted">Submit</div>
+                  <div *ngIf="!answerSubmitted && auth.userUid != host">Submit</div>
+                  <div *ngIf="!answerSubmitted && auth.userUid == host"><i>Submit is disabled as you are the host</i></div>
                 <div *ngIf="answerSubmitted">Answer Submitted</div>
               </button>
             </form>
@@ -68,20 +73,25 @@
                 </div>
               </div><br/>
               <button mat-raised-button class="action-button full" type="submit" [disabled]="!pickedAnOption || answerSubmitted ||auth.userUid == host">
-                <div *ngIf="!answerSubmitted">Submit</div>
+                  <div *ngIf="!answerSubmitted && auth.userUid != host">Submit</div>
+                  <div *ngIf="!answerSubmitted && auth.userUid == host"><i>Submit is disabled as you are the host</i></div>
                 <div *ngIf="answerSubmitted">Answer Submitted</div>
               </button>
             </form>
             <br/>
+            <br/>
+            <h3>Results</h3>
             <div *ngIf="liveQuestion.answers">
                 <div *ngIf="liveQuestion.answers.length > 0 && liveQuestion.type == 'openText'">
+                  <div *ngIf="hostPlan != planType.Free" class="flex space-center">
                     <div matTooltip="Overall sentiment score: {{liveQuestion.sentiment.score}}">Overall Sentiment: {{sentimentAssessment}}</div>
                     <button mat-stroked-button (click)="sortSentiment()">Sort by sentiment</button>
-                    <div class="written-answers-block light-margin">
+                  </div>  
+                    <div class="written-answers-block? light-margin">
                         <div *ngFor="let ans of liveQuestion.answers">
                             <mat-card class="light-margin">
                               "{{ans.responce[0]}}" 
-                              <div *ngIf="ans.sentiment">
+                              <div *ngIf="ans.sentiment && hostPlan != planType.Free">
                                   <div matTooltip="Sentiment score: {{ans.sentiment.score}}" *ngIf="ans.sentiment.score > 5" class="sentiment-emoji">❤️</div>
                                   <div matTooltip="Sentiment score: {{ans.sentiment.score}}" *ngIf="ans.sentiment.score > 1 && ans.sentiment.score <= 5" class="sentiment-emoji">👍</div>
                                   <div matTooltip="Sentiment score: {{ans.sentiment.score}}" *ngIf="ans.sentiment.score < -1 && ans.sentiment.score >= -5" class="sentiment-emoji">👎</div>

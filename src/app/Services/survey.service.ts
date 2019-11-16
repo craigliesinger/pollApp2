@@ -8,6 +8,7 @@ import 'firebase/auth';
 import 'firebase/database';
 import { take } from 'rxjs/operators';
 import { Question, OpenText, Choice, Answer } from '../Models/question';
+import { Plan } from '../Models/user';
 
 
 @Injectable({
@@ -33,6 +34,13 @@ export class SurveyService {
     return this.afs.doc<Survey>('surveys/' + surveyUid).valueChanges().pipe(take(1))
   }
 
+  updateSurveyPlan(surveyUid: string, plan: Plan) {
+    let ref = this.afs.doc<Survey>('surveys/'+surveyUid)
+    ref.update({
+      hostPlan: plan
+    })
+  }
+
   /* Create a new survey */
   createSurvey(survey) {
     survey.lastUserAddTimestamp = firebase.firestore.FieldValue.serverTimestamp()
@@ -46,7 +54,7 @@ export class SurveyService {
 
   /* Get surveys by User ID */
   getSurveysForUser(userId: string): Observable<Survey[]> {
-    return this.afs.collection<Survey>('surveys', ref => ref.where('owner', '==', userId)).valueChanges()
+    return this.afs.collection<Survey>('surveys', ref => ref.where('owner', '==', userId).orderBy('lastUserAddTimestamp','desc')).valueChanges()
   }
 
   addUserAttendee(survey: Survey, userId: string) {

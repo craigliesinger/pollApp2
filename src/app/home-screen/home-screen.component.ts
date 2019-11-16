@@ -13,7 +13,7 @@ export class HomeScreenComponent implements OnInit {
   
   ownedSurveys: Observable<Survey[]>
 
-  constructor(private survService: SurveyService, private auth: AuthService) { }
+  constructor(private survService: SurveyService, public auth: AuthService) { }
 
   async ngOnInit() {
     if (await this.auth.isLoggedIn()) {

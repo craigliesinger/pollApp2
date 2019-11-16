@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, Color } from 'ng2-charts';
+import { Plan } from '../Models/user';
 
 @Component({
   selector: 'app-live-survey',
@@ -41,6 +42,8 @@ export class LiveSurveyComponent implements OnInit {
   vibeHistory: number[] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
   sentimentAssessment: string
   sortPositive: boolean = true
+  hostPlan: Plan = Plan.Free
+  planType = Plan
   // FOR CHARTING
   public vibeChartData: ChartDataSets[] = [{}]
   public lineChartLabels: Label[] = [
@@ -142,7 +145,18 @@ export class LiveSurveyComponent implements OnInit {
         if (this.currentUser != this.host) {
           this.survService.addUserAttendee(this.survOneTime, this.currentUser)
           this.survService.removeUserAttendeeOnDisconnect(this.survOneTime, this.currentUser)
-        } 
+        } else {
+          // set restrictions based on hosts plan
+          this.auth.user.subscribe(res => {
+            if (res.plan) {
+              if (res.plan != this.survOneTime.hostPlan) {
+                this.survService.updateSurveyPlan(this.survOneTime.uid, res.plan)
+              }
+            } else {
+              // stay at free
+            }
+          })
+        }
       } else {
         this.auth.afAuth.auth.signInAnonymously().then(res => {
           this.currentUser = res.user.uid
@@ -158,9 +172,10 @@ export class LiveSurveyComponent implements OnInit {
 
     this.survey.subscribe(res => {
       this.surv = res
+      this.hostPlan = res.hostPlan
       let uCount = []
       if (res.activeParticipants) {
-        let uCount = res.activeParticipants
+        uCount = res.activeParticipants
       } 
       if (uCount) {
         this.userCount = uCount.length
@@ -186,6 +201,7 @@ export class LiveSurveyComponent implements OnInit {
       
     })
   }
+
 
   get choices() {
     return this.userChoiceMultiQuestionForm.get('choices') as FormArray
@@ -253,12 +269,12 @@ export class LiveSurveyComponent implements OnInit {
     }
   }
 
-  createBarChartForChoiceQuestion(q: Question) {
+  async createBarChartForChoiceQuestion(q: Question) {
     this.barChartLabels = []
     this.barChartData = []
     let answers = q.answers as Answer[]
     var tempData = []
-    q.options.forEach(op => {
+    await q.options.forEach(op => {
       var count = 0
       this.barChartLabels.push(op)
       answers.forEach(ans => {
@@ -345,7 +361,6 @@ export class LiveSurveyComponent implements OnInit {
   sendRatingUpdate(ev) {
     this.survService.lastUserRating = ev.value
     let delta = ev.value - this.lastRatingValue
-    console.log(delta)
     this.survService.changeSurveyRating(this.surv, delta)
     this.lastRatingValue = ev.value
     this.survService.removeUserAttendeeOnDisconnect(this.survOneTime, this.currentUser)

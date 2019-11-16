@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { SurveyService } from '../Services/survey.service';
 import { Survey } from '../Models/survey';
 import { MatSnackBar } from '@angular/material';
+import { Plan } from '../Models/user';
 
 @Component({
   selector: 'app-question-container',
@@ -15,9 +16,12 @@ export class QuestionContainerComponent implements OnInit {
   @Input() questions: Observable<Question[]>
   @Input() liveQuestion: OpenText | Choice
   @Input() survOneTime: Survey
+  @Input() hostPlan: Plan = Plan.Free
+  public planType = Plan
   creatingQuestion: boolean = false
   showOpen: boolean = false
   showChoice: boolean = false
+  
 
   constructor(private survService: SurveyService,  private snackBar: MatSnackBar) { }
 

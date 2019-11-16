@@ -21,10 +21,10 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 @include angular-material-theme($candy-app-theme);
 
 body {
-    //display: block;
+    display: block;
     margin: 0px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    //overflow: hidden;
+    overflow: hidden;
 }
 
 .no-style {
@@ -61,6 +61,9 @@ body {
 .flex {
     display: flex;
     align-items: center;
+}
+.baseline {
+    align-items: baseline !important;
 }
 
 .full {
@@ -122,6 +125,10 @@ body {
 }
 .space-center {
     justify-content: space-around;
+}
+
+.space-between {
+    justify-content: space-between;
 }
 
 .fix-bottom {

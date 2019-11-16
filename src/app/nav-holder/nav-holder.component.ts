@@ -17,7 +17,7 @@ export class NavHolderComponent implements OnInit {
     this.authService.afAuth.authState.subscribe(
       (auth) => {
         if (auth == null || auth.isAnonymous) {
-          console.log("Logged out");
+          //console.log("Logged out");
           this.isLoggedIn = false;
           this.user_displayName = '';
           this.user_email = '';
@@ -25,8 +25,7 @@ export class NavHolderComponent implements OnInit {
           this.isLoggedIn = true;
           this.user_displayName = auth.displayName;
           this.user_email = auth.email;
-          console.log("Logged in");
-          console.log(auth);
+          //console.log("Logged in");
         }
       }
     );
@@ -42,7 +41,6 @@ export class NavHolderComponent implements OnInit {
   }
 
   tryLogout() {
-    console.log("trying loggout");
     this.authService.logout()
     .then(res => {
       console.log("logout successful");

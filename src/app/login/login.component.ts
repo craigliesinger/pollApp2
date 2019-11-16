@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
   checkPasswords(form: FormGroup) { 
     let pass = form.get('password').value
     let confirmPass = form.get('passwordRepeat').value
-    console.log(pass, confirmPass)
+    //console.log(pass, confirmPass)
     if (pass === confirmPass) {
       return null
     } else {

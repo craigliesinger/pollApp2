@@ -1,0 +1,14 @@
+<div class="container head-room">
+    <div *ngIf="authService.user">
+      <div *ngIf="authService.afAuth.auth.currentUser" class="flex basline">
+        <h3>Logged in as:</h3><b class="padded-left">{{authService.afAuth.auth.currentUser.email}}</b>
+      </div>
+      
+      <br/>
+      <div class="flex baseline">
+        <h3>Current plan: </h3><b class="padded-left">{{currentPlan}}</b>
+      </div>
+      
+    </div>
+</div>
+

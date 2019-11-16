@@ -12,20 +12,27 @@
     //margin-top: 0px;
 }
 
+.max600 {
+    max-width: 600px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
 .my-side-nav-right {
     height: 100%;
     margin-left: 0px;
     margin-top: 0px;
-    min-width: 550px;
+    width: 550px;
+    //min-width: 550px;
     max-width: 90%;
     padding: 10px;
-    background: $secondary-light;
+    background: $secondary;
 }
 
 .side-menu-button {
     z-index: 100;
     color: $primary;
-    background: $secondary-light;
+    background: $secondary;
     position: absolute;
     top: 62px;
     right: 0px;
@@ -83,6 +90,47 @@
     color: red;
 }
 
+::ng-deep.mat-checkbox {
+    line-height: 30px;
+}
+
+::ng-deep.mat-radio-button {
+    line-height: 30px;
+}
+::ng-deep.mat-slider-horizontal .mat-slider-wrapper {
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    position: relative !important;
+}
+
+::ng-deep.mat-slider-horizontal .mat-slider-track-wrapper {
+    height: 0 !important;
+}
+
+::ng-deep.mat-slider-thumb {
+    bottom: -20px !important;
+    right: -20px !important;
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 80%;
+    height: 16px !important;
+    border-radius: 8px;  
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+
+  .slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+  }
+  
 
 @keyframes fadeInLeft {
     from {
@@ -102,17 +150,8 @@
     animation-fill-mode: both;
 }
 
-@media only screen and (max-width: 1200px) {
-    //.question-container {
-    //    width: 0%;
-    //    display: none;
-    //}
-
-    //.question-expand {
-    //    width: 75% !important;
-    //}
-
-    //.full-on-small {
-    //    width: 97% !important;
-    //}
+@media only screen and (max-width: 680px) {
+    .max600 {
+        max-width: 90%;
+    }
 }

@@ -26,10 +26,13 @@
           </div>
         </div>
         <br/>
-        <div *ngIf="!creatingQuestion" class="full flex space-center fix-bottom bottom-room">
-            <button mat-raised-button type="button" class="action-button" (click)="showOpenForm()">Create Open Text Question</button>
-            <button mat-raised-button type="button" class="action-button" (click)="showChoiceForm()">Create Multiple Choice Question</button>
-          </div>
+        <div *ngIf="!creatingQuestion && ((questions | async)?.length < 3 || hostPlan > 0)" class="full flex space-center fix-bottom bottom-room">
+          <button mat-raised-button type="button" class="action-button" (click)="showOpenForm()">Create Open Text Question</button>
+          <button mat-raised-button type="button" class="action-button" (click)="showChoiceForm()">Create Multiple Choice Question</button>
+        </div>
+        <div *ngIf="!creatingQuestion && (questions | async)?.length > 2 && hostPlan == planType.Free" class="full flex space-center fix-bottom bottom-room">
+          <button mat-raised-button type="button" class="warning-button" routerLink="/account">Upgrade Account to Add More Questions</button>
+        </div>
           <br/>
           <div *ngIf="creatingQuestion && showOpen" class="full flex">
               <app-create-question-open-text [surveyId]="survOneTime.uid" (creatingQuestion)="creatingOTQuestion($event)" class="full"></app-create-question-open-text>
