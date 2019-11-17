@@ -95,6 +95,13 @@ export class LiveSurveyComponent implements OnInit {
   ];
   public barChartOptions: ChartOptions = {
     responsive: true,
+    animation:{
+      duration: 0
+    },
+    hover: {
+        animationDuration: 0, // duration of animations when hovering an item
+    },
+    responsiveAnimationDuration: 0, // animation duration after a resize
     scales : {
       yAxes: [{
         gridLines: {

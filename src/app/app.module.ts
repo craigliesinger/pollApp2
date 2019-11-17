@@ -27,6 +27,8 @@ import { CreateQuestionChoiceComponent } from './create-question-choice/create-q
 import { QuestionContainerComponent } from './question-container/question-container.component';
 import { FindSurveyByShortcodeComponent } from './find-survey-by-shortcode/find-survey-by-shortcode.component';
 import { UserAccountComponent } from './user-account/user-account.component';
+import { AboutComponent } from './about/about.component';
+import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { UserAccountComponent } from './user-account/user-account.component';
     CreateQuestionChoiceComponent,
     QuestionContainerComponent,
     FindSurveyByShortcodeComponent,
-    UserAccountComponent
+    UserAccountComponent,
+    AboutComponent,
+    TermsAndConditionsComponent
   ],
   imports: [
     BrowserModule,
