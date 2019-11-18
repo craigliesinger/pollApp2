@@ -81,7 +81,7 @@
             <br/>
             <br/>
             <h3>Results</h3>
-            <div *ngIf="liveQuestion.answers">
+            <div *ngIf="liveQuestion.answers" class="full-length">
                 <div *ngIf="liveQuestion.answers.length > 0 && liveQuestion.type == 'openText'">
                   <div *ngIf="hostPlan != planType.Free" class="flex space-center">
                     <div matTooltip="Overall sentiment score: {{liveQuestion.sentiment.score}}">Overall Sentiment: {{sentimentAssessment}}</div>
