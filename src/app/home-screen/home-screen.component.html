@@ -1,16 +1,18 @@
-<div class="container head-room">
-  <app-find-survey-by-shortcode></app-find-survey-by-shortcode>
-  <br/>
-  <br/>
-  <br/>
-  <div *ngIf="auth.afAuth.auth.currentUser">
-      <div *ngIf="!auth.afAuth.auth.currentUser.isAnonymous" class="container head-room">
-          <button mat-raised-button type="button" [routerLink]="['/newsurvey']" class="action-button">Create New Survey</button>
-          <h2>Your Previous Surveys</h2>
-          <div *ngFor="let survey of ownedSurveys | async">
-            <p><a [routerLink]="['/survey', survey.url]">{{survey.title}}</a></p>
-          </div>
+<div class="portal-container">
+    <div class="container head-room">
+        <app-find-survey-by-shortcode></app-find-survey-by-shortcode>
+        <br/>
+        <br/>
+        <br/>
+        <div *ngIf="auth.afAuth.auth.currentUser">
+            <div *ngIf="!auth.afAuth.auth.currentUser.isAnonymous" class="container head-room">
+                <button mat-raised-button type="button" [routerLink]="['/newsurvey']" class="action-button">Create New Survey</button>
+                <h2>Your Previous Surveys</h2>
+                <div *ngFor="let survey of ownedSurveys | async">
+                  <p><a [routerLink]="['/survey', survey.url]">{{survey.title}}</a></p>
+                </div>
+            </div>
+        </div>
+        
       </div>
-  </div>
-  
 </div>

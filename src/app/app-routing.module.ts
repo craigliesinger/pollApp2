@@ -8,6 +8,9 @@ import { CreateSurveyComponent } from './create-survey/create-survey.component';
 import { LiveSurveyComponent } from './live-survey/live-survey.component';
 import { QuestionContainerComponent } from './question-container/question-container.component';
 import { UserAccountComponent } from './user-account/user-account.component';
+import { AboutComponent } from './about/about.component';
+import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
+import { RoomFullComponent } from './room-full/room-full.component';
 
 const routes: Routes = [
   { path: '', component: NavHolderComponent,
@@ -18,7 +21,11 @@ const routes: Routes = [
       { path: 'survey/:uid/q', component: QuestionContainerComponent },
       { path: 'login', component: LoginComponent},
       { path: 'account', component: UserAccountComponent},
-      { path: 'resetpassword', component: ResetPasswordComponent}
+      { path: 'resetpassword', component: ResetPasswordComponent},
+      { path: 'about', component: AboutComponent},
+      { path: 'about/pricing', component: AboutComponent},
+      { path: 'terms', component: TermsAndConditionsComponent},
+      { path: 'surveyfull/:num', component: RoomFullComponent}
     ] 
   }
   

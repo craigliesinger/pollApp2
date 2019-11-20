@@ -6,6 +6,7 @@
       </div>
       <ng-template #loggedOut>
         <button mat-menu-item routerLink="/login">Login</button>
+        <button mat-menu-item routerLink="/about">About</button>
       </ng-template>
     </mat-menu>
   <div>
@@ -18,4 +19,5 @@
   </div>
 
   <router-outlet></router-outlet>
+  <div class="bottom-stick" *ngIf="router.url != '/about' && router.url != '/about/pricing' && (!authService.afAuth.auth.currentUser || authService.afAuth.auth.currentUser.isAnonymous)"><a class="no-style-black" [routerLink]="['about']">What is Vybe Survey?</a></div>
 <br/>

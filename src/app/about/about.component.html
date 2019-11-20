@@ -1,3 +1,132 @@
-<p>
-  about works!
-</p>
+<div class="portal-container">
+    <div class="container head-room center">
+        <h1 class="center">Vybe Survey - BETA</h1>
+        <h2 class="div-center three-fourths"><b>Have you ever given a speech or presentation to a group of people and posed a question to the group at large only to get silence and blank faces in return?</b></h2>
+        <h4 class="div-center half">Use Vybe Survey to eliminate these moments.</h4>
+        <mat-tab-group [selectedIndex]="selectedIndex">
+          <mat-tab label="Features">
+            <h2 class="center">Vybe Survey is an audience engagement tool designed to benefit both presenter and attendee.</h2>
+            <br/>
+            <div class=" flex feature-block space-even">
+              <mat-card class="feature-image third">
+                <img class="contain-image" src="../../assets/img/multichoice_question.png">
+              </mat-card>
+              <div class="third">
+                <h1><b>ENGAGE</b></h1>
+                <h3>The host can pose open ended and multiple choice questions in real time, and the entire crowd can see and explore the collective answers.</h3>
+              </div>
+            </div><br/><br/><br/><br/>
+            <div class=" flex feature-block space-even">
+              <div class="third">
+                <h1><b>READ THE ROOM</b></h1>
+                <h3>Attendees have the ability to subtly and anonymously give general feedback to the presenter with the Vybe Meter.</h3>
+                <h4>The host sees the collective average, thus letting him or her know instantly if they are losing their crowd or if they are preaching to the choir.</h4>    
+              </div>
+              <mat-card class="feature-image third">
+                  <img class="contain-image" src="../../assets/img/vybemeter.png">
+              </mat-card>
+            </div><br/><br/><br/><br/>
+            <div class=" flex feature-block space-even">
+              <mat-card class="feature-image third">
+                  <img class="contain-image" src="../../assets/img/opentext_question.png">
+              </mat-card>
+              <div class="third">
+                <h1><b>ANALYZE</b></h1>
+                <h3>Sentiment analysis on open text questions provides meaningful analysis on qualitative data.</h3>
+              </div>
+            </div><br/><br/><br/><br/>
+            <div class="flex flex-wrap three-fourths div-center ">
+                <h2>Get everyone involved in your next presentation with Vybe Survey </h2>
+                <button mat-stroked-button class="action-button left-margin" (click)="selectTab(3)">Check out our plans</button>
+              </div><br/><br/>
+          </mat-tab>
+          <mat-tab label="What the Host Sees">
+            <br/>
+            <mat-card class="feature-image example-image div-center">
+              <img class="contain-image" src="../../assets/img/hostview.png">
+            </mat-card>
+          </mat-tab>
+          
+          <mat-tab label="What Attendees See">
+            <br/>
+            <mat-card class="feature-image example-image div-center">
+              <img class="contain-image" src="../../assets/img/attendeeview.png">
+            </mat-card>
+          </mat-tab>
+            
+          <mat-tab label="Pricing">
+            <br/><br/>
+            <div class=" flex feature-block space-even">
+              <mat-card class="third">
+                <mat-card-header>
+                  <mat-card-title>
+                    <h1>Free</h1>
+                  </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <mat-list>
+                    <mat-list-item>
+                      <mat-icon matListIcon class="primary-text">star</mat-icon>
+                      <h3 matLine class="left">Unlimited survey creation </h3>
+                    </mat-list-item>
+                    <mat-list-item>
+                      <mat-icon matListIcon class="primary-text">star</mat-icon>
+                      <h3 matLine class="left">3 questions per survey </h3>
+                    </mat-list-item>
+                    <mat-list-item>
+                      <mat-icon matListIcon class="primary-text">star</mat-icon>
+                      <h3 matLine class="left">Up to 50 attendees </h3>
+                    </mat-list-item>
+                    <mat-list-item>
+                      <mat-icon matListIcon class="primary-text">star</mat-icon>
+                      <h3 matLine class="left">Sentiment Analysis </h3>
+                    </mat-list-item>
+                  </mat-list>
+                  <div><h1>$ 0</h1></div>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-button class="action-button button-150" routerLink="/login">Join</button>
+                </mat-card-actions>
+              </mat-card>
+
+              <mat-card class="third">
+                  <mat-card-header>
+                    <mat-card-title>
+                      <h1>Presenter</h1>
+                    </mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <mat-list>
+                      <mat-list-item>
+                      <mat-icon matListIcon class="primary-text">star</mat-icon>
+                      <h3 matLine class="left">Unlimited survey creation </h3>
+                    </mat-list-item>
+                      <mat-list-item>
+                        <mat-icon matListIcon class="primary-text">star</mat-icon>
+                        <h3 matLine class="left">Unlimited Questions </h3>
+                      </mat-list-item>
+                      <mat-list-item>
+                        <mat-icon matListIcon class="primary-text">star</mat-icon>
+                        <h3 matLine class="left">Unlimited Attendees </h3>
+                      </mat-list-item>
+                      <mat-list-item>
+                          <mat-icon matListIcon class="primary-text">star</mat-icon>
+                          <h3 matLine class="left">Sentiment Analysis </h3>
+                        </mat-list-item>
+                    </mat-list>
+                    <h1>$10 / month</h1>
+                  </mat-card-content>
+                  <mat-card-actions>
+                      <button mat-button class="action-button button-150">Upgrade</button>
+                  </mat-card-actions>
+                </mat-card>
+
+            </div><br/><br/>
+          </mat-tab>
+        </mat-tab-group>
+        
+
+        
+        
+      </div>
+</div>

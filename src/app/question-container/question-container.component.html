@@ -5,7 +5,8 @@
           <div >
             <mat-card class="question-card" (click)="setQuestionLive(question)">
               <div class="hover-overlay"><h4>🚀</h4></div>
-              <mat-card-header>
+
+              <mat-card-header class="padded-right40">
                 <div *ngIf="question.type == 'openText'"><mat-icon>short_text</mat-icon></div>
                 <div *ngIf="question.type == 'multiChoice' && !question.multiSelect"><mat-icon>radio_button_checked</mat-icon></div>
                 <div *ngIf="question.type == 'multiChoice' && question.multiSelect"><mat-icon>check_box</mat-icon></div><span class="left-margin"></span>

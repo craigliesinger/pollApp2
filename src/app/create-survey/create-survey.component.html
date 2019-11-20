@@ -1,37 +1,43 @@
-<div class="container head-room">
-  <div class="full center">
-    <h1 class="full">Create New Survey</h1>
-  </div>
-  <br/>
-  <form [formGroup]="newSurveyForm" (ngSubmit)="createSurvey(newSurveyForm.value)">
-      <mat-form-field appearance="outline" class="full">
-        <mat-label>Title</mat-label>
-        <input matInput formControlName="title">
-        <mat-error *ngIf="title.hasError('required')">
-          Title is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-<br/>
-<h4>Prepare Questions</h4>
-      <div *ngIf="!creatingQuestion" class="full flex">
-          <button mat-raised-button type="button" class="action-button" (click)="showOpenForm()">Create Open Text Question</button>
-          <button mat-raised-button type="button" class="action-button left-margin" (click)="showChoiceForm()">Create Multiple Choice Question</button>
-        </div>
-        <div *ngIf="creatingQuestion && showOpen" class="full flex">
-          <app-create-question-open-text [surveyId]="newId" (creatingQuestion)="addQuestion($event)" class="full"></app-create-question-open-text>
-        </div>
-        <div *ngIf="creatingQuestion && showChoice" class="full flex">
-          <app-create-question-choice [surveyId]="newId" (creatingQuestion)="addQuestion($event)" class="full"></app-create-question-choice>
-        </div>
-      
-        <div *ngFor="let question of preppedQuestions">
-          <br/>
-          <mat-card>
-            {{question.question}}
-          </mat-card>
+<div class="portal-container">
+    <div class="container head-room">
+        <div class="full center">
+          <h1 class="full">Create New Survey</h1>
         </div>
         <br/>
+        <form [formGroup]="newSurveyForm" (ngSubmit)="createSurvey(newSurveyForm.value)">
+            <mat-form-field appearance="outline" class="full">
+              <mat-label>Title</mat-label>
+              <input matInput formControlName="title">
+              <mat-error *ngIf="title.hasError('required')">
+                Title is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+      <br/>
+      <h4>Prepare Questions</h4>
+            <div *ngIf="!creatingQuestion && (preppedQuestions.length < 3 || hostPlan > 0)" class="full flex">
+                <button mat-raised-button type="button" class="action-button" (click)="showOpenForm()">Create Open Text Question</button>
+                <button mat-raised-button type="button" class="action-button left-margin" (click)="showChoiceForm()">Create Multiple Choice Question</button>
+              </div>
+              <div *ngIf="!creatingQuestion && preppedQuestions.length > 2 && hostPlan == planType.Free" class="full flex space-center fix-bottom bottom-room">
+                  <a target="_blank" routerLink="/account"><button mat-raised-button type="button" class="warning-button" >Upgrade Account to Add More Questions</button></a>
+                </div>
+              <div *ngIf="creatingQuestion && showOpen" class="full flex">
+                <app-create-question-open-text [surveyId]="newId" (creatingQuestion)="addQuestion($event)" class="full"></app-create-question-open-text>
+              </div>
+              <div *ngIf="creatingQuestion && showChoice" class="full flex">
+                <app-create-question-choice [surveyId]="newId" (creatingQuestion)="addQuestion($event)" class="full"></app-create-question-choice>
+              </div>
 
-      <button mat-raised-button class="action-button full" type="submit" [disabled]="newSurveyForm.invalid"><div>Create</div></button>
-    </form>
+              <div *ngFor="let question of preppedQuestions">
+                <br/>
+                <mat-card>
+                  {{question.question}}
+                </mat-card>
+              </div>
+              <br/>
+      
+            <button mat-raised-button class="action-button full" type="submit" [disabled]="newSurveyForm.invalid"><div>Create Survey</div></button>
+          </form>
+      </div>
+      
 </div>

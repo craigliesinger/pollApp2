@@ -150,12 +150,24 @@ export class LiveSurveyComponent implements OnInit {
       if (this.auth.userUid) {
         this.currentUser = this.auth.userUid
         if (this.currentUser != this.host) {
-          this.survService.addUserAttendee(this.survOneTime, this.currentUser)
-          this.survService.removeUserAttendeeOnDisconnect(this.survOneTime, this.currentUser)
+          if (res.hostPlan == Plan.Free) {
+            console.log('uh oh, free loader ', res.activeParticipants.length)
+            // If active participants over max list, then reroute user to room full notice
+            if (res.activeParticipants.length >= 50) {
+              this.router.navigate(['/surveyfull/',res.activeParticipants.length]);
+            } else {
+              this.survService.addUserAttendee(this.survOneTime, this.currentUser)
+              this.survService.removeUserAttendeeOnDisconnect(this.survOneTime, this.currentUser)
+            }
+          } else {
+            this.survService.addUserAttendee(this.survOneTime, this.currentUser)
+            this.survService.removeUserAttendeeOnDisconnect(this.survOneTime, this.currentUser)
+          }
+          
         } else {
           // set restrictions based on hosts plan
           this.auth.user.subscribe(res => {
-            if (res.plan) {
+            if (res.plan != null) {
               if (res.plan != this.survOneTime.hostPlan) {
                 this.survService.updateSurveyPlan(this.survOneTime.uid, res.plan)
               }
@@ -353,6 +365,7 @@ export class LiveSurveyComponent implements OnInit {
   }
 
   addAnswer(answer: string[]) {
+    this.survService.addUserAttendee(this.survOneTime, this.currentUser)
     this.survService.addAnswerToQuestion(this.survOneTime.uid, this.liveQuestion, answer, this.currentUser)
     let snackBarRef = this.snackBar.open('✅ Answer Submitted', '' , {
       duration: 5000,
@@ -366,6 +379,7 @@ export class LiveSurveyComponent implements OnInit {
   }
 
   sendRatingUpdate(ev) {
+    this.survService.addUserAttendee(this.survOneTime, this.currentUser)
     this.survService.lastUserRating = ev.value
     let delta = ev.value - this.lastRatingValue
     this.survService.changeSurveyRating(this.surv, delta)

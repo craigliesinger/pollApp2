@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-about',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutComponent implements OnInit {
 
-  constructor() { }
+  selectedIndex = 0
+
+  constructor(private router: Router) { }
 
   ngOnInit() {
+    if (this.router.url == '/about/pricing') {
+      this.selectTab(3)
+    }
+  }
+
+  selectTab(index: number): void {
+    this.selectedIndex = index;
   }
 
 }

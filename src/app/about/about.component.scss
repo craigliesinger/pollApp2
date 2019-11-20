@@ -1,0 +1,11 @@
+.feature-image {
+    padding: 0 !important;
+}
+
+.example-image {
+    max-width: 800px;
+}
+
+::ng-deep.mat-tab-label {
+    width: 25%;
+}

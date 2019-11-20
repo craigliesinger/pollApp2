@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../Services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-holder',
@@ -13,7 +14,7 @@ export class NavHolderComponent implements OnInit {
   public user_displayName: String;
   public user_email: String; 
 
-  constructor(public authService: AuthService) {
+  constructor(public authService: AuthService, public router: Router) {
     this.authService.afAuth.authState.subscribe(
       (auth) => {
         if (auth == null || auth.isAnonymous) {

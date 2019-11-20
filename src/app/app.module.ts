@@ -17,7 +17,7 @@ import { ChartsModule } from 'ng2-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavHolderComponent } from './nav-holder/nav-holder.component';
 import { LoginComponent } from './login/login.component';
-import { MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatMenuModule, MatDialogModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatSliderModule, MatSlideToggleModule, MatRadioModule, MatCheckboxModule, MatTooltipModule, MatDividerModule } from '@angular/material';
+import { MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatMenuModule, MatDialogModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatSliderModule, MatSlideToggleModule, MatRadioModule, MatCheckboxModule, MatTooltipModule, MatDividerModule, MatTabsModule, MatListModule } from '@angular/material';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { HomeScreenComponent } from './home-screen/home-screen.component';
 import { CreateSurveyComponent } from './create-survey/create-survey.component';
@@ -29,6 +29,7 @@ import { FindSurveyByShortcodeComponent } from './find-survey-by-shortcode/find-
 import { UserAccountComponent } from './user-account/user-account.component';
 import { AboutComponent } from './about/about.component';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
+import { RoomFullComponent } from './room-full/room-full.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-co
     FindSurveyByShortcodeComponent,
     UserAccountComponent,
     AboutComponent,
-    TermsAndConditionsComponent
+    TermsAndConditionsComponent,
+    RoomFullComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +56,7 @@ import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-co
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule, ReactiveFormsModule,
-    MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatMenuModule, MatDialogModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatSliderModule, MatSlideToggleModule, MatRadioModule, MatCheckboxModule, MatTooltipModule, MatDividerModule,
+    MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatMenuModule, MatDialogModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatSliderModule, MatSlideToggleModule, MatRadioModule, MatCheckboxModule, MatTooltipModule, MatDividerModule, MatTabsModule, MatListModule,
     ChartsModule
   ],
   providers: [],

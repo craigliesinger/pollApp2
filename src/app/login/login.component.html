@@ -1,4 +1,4 @@
-<mat-card class="login-card">
+<div class="login-card">
     <button mat-raised-button class="full" type="button" (click)="authService.googleSignin()">
         <div class="google-button">
           <img class="firebaseui-idp-icon" alt="" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg">
@@ -57,5 +57,6 @@
     <br/>
     <span class="error">{{errorMessage}}</span>
 
-    <button mat-stroked-button *ngIf="!newUser" type="button" (click)="openResetPasswordDialog()">Forgot Password?</button>
-  </mat-card>
+    <button mat-stroked-button *ngIf="!newUser" type="button" (click)="openResetPasswordDialog()">Forgot Password?</button><br/>
+    By signing up you are agreeing with our <a target="_blank" routerLink="/terms">terms & conditions</a>
+  </div>

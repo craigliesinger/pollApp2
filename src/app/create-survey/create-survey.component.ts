@@ -7,6 +7,7 @@ import { Survey } from '../Models/survey';
 import { MatSnackBar } from '@angular/material';
 import { Observable } from 'rxjs';
 import { Question } from '../Models/question';
+import { Plan } from '../Models/user';
 
 
 @Component({
@@ -26,6 +27,8 @@ export class CreateSurveyComponent implements OnInit {
   questions: Observable<Question[]>
   newId: string
   preppedQuestions: Question[] = []
+  hostPlan: Plan = Plan.Free
+  public planType = Plan
 
   constructor(public authService: AuthService, private survService: SurveyService, private router: Router, private fb: FormBuilder, private snackBar: MatSnackBar) { }
 
@@ -34,7 +37,14 @@ export class CreateSurveyComponent implements OnInit {
       title: this.title,
     })
     this.newId = this.survService.generateId()
-
+    this.authService.user.subscribe(res => {
+      if (res.plan != null) {
+        this.hostPlan = res.plan
+      } else {
+        // stay at free
+        this.hostPlan = Plan.Free
+      }
+    })
   }
 
   createSurvey(formValue) {
@@ -45,6 +55,7 @@ export class CreateSurveyComponent implements OnInit {
     newSurvey.title = formValue.title
     newSurvey.activeParticipants = []
     newSurvey.owner = this.authService.getLoggedInUserId()
+    newSurvey.hostPlan = this.hostPlan
     this.survService.createSurvey(newSurvey).then(() => {
       this.preppedQuestions.forEach(item => {
         this.survService.createQuestionForSurvey(item,newSurvey.uid)
