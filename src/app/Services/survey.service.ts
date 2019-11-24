@@ -57,6 +57,13 @@ export class SurveyService {
     return this.afs.collection<Survey>('surveys', ref => ref.where('owner', '==', userId).orderBy('lastUserAddTimestamp','desc')).valueChanges()
   }
 
+  addInterestedUser(user: string) {
+    let ref = this.afs.doc<any>('prospects/beta')
+    ref.update({
+      email: firebase.firestore.FieldValue.arrayUnion(user) as any
+    })
+  }
+
   addUserAttendee(survey: Survey, userId: string) {
     let ref = this.afs.doc<Survey>('surveys/'+survey.uid)
     ref.update({

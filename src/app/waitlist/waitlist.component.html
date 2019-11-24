@@ -1,0 +1,13 @@
+<form [formGroup]="waitlistForm" (ngSubmit)="addToWaitlist(waitlistForm.value)">
+    <mat-form-field appearance="outline" class="full">
+        <mat-label>email</mat-label>
+        <input matInput formControlName="email">
+        <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="email.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    <button mat-raised-button class="action-button full" type="submit" [disabled]="waitlistForm.invalid || submitted"><div>Join Waitlist</div></button>
+  </form>

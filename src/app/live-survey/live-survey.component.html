@@ -114,7 +114,10 @@
             </div>
             
         </div>  
-      
+      <br/>
+      <br/>
+      <div class="center" *ngIf="(!auth.afAuth.auth.currentUser || auth.afAuth.auth.currentUser.isAnonymous)"><a class="no-style-black" [routerLink]="['/about']" target="_blank">What is Vybe Survey?</a></div>
+      <br/>
       </div>
       <br/>
 </mat-sidenav-container>
