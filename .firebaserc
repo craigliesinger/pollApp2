@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "pollespresso"
+    "dev": "pollespresso",
+    "prod": "vybe-survey"
   }
 }

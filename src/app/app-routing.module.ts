@@ -11,23 +11,27 @@ import { UserAccountComponent } from './user-account/user-account.component';
 import { AboutComponent } from './about/about.component';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 import { RoomFullComponent } from './room-full/room-full.component';
+import { AuthGuard } from './Guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: NavHolderComponent,
     children: [
       { path: '', component: HomeScreenComponent }, 
-      { path: 'newsurvey', component: CreateSurveyComponent },
+      { path: 'newsurvey', component: CreateSurveyComponent, canActivate: [AuthGuard]},
       { path: 'survey/:uid', component: LiveSurveyComponent },
       { path: 'survey/:uid/q', component: QuestionContainerComponent },
       { path: 'login', component: LoginComponent},
-      { path: 'account', component: UserAccountComponent},
+      { path: 'account', component: UserAccountComponent, canActivate: [AuthGuard]},
       { path: 'resetpassword', component: ResetPasswordComponent},
       { path: 'about', component: AboutComponent},
       { path: 'about/pricing', component: AboutComponent},
       { path: 'terms', component: TermsAndConditionsComponent},
-      { path: 'surveyfull/:num', component: RoomFullComponent}
+      { path: 'surveyfull/:num', component: RoomFullComponent},
+      { path: '**', redirectTo: '' },
     ] 
-  }
+  },
+  { path: 'terms', component: TermsAndConditionsComponent},
+  { path: '**', redirectTo: '' }
   
 ];
 

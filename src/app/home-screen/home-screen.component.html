@@ -15,4 +15,5 @@
         </div>
         
       </div>
+      <div class="bottom-stick" *ngIf="(!auth.afAuth.auth.currentUser || auth.afAuth.auth.currentUser.isAnonymous)"><a class="no-style-black" [routerLink]="['/about']">What is Vybe Survey?</a></div>
 </div>

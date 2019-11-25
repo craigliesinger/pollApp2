@@ -31,6 +31,10 @@ import { AboutComponent } from './about/about.component';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 import { RoomFullComponent } from './room-full/room-full.component';
 
+import { AuthGuard } from './Guards/auth.guard';
+import { PaymentComponent } from './payment/payment.component';
+import { WaitlistComponent } from './waitlist/waitlist.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +51,9 @@ import { RoomFullComponent } from './room-full/room-full.component';
     UserAccountComponent,
     AboutComponent,
     TermsAndConditionsComponent,
-    RoomFullComponent
+    RoomFullComponent,
+    PaymentComponent,
+    WaitlistComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +65,7 @@ import { RoomFullComponent } from './room-full/room-full.component';
     MatSidenavModule, MatButtonModule, MatIconModule, MatToolbarModule, MatMenuModule, MatDialogModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatSliderModule, MatSlideToggleModule, MatRadioModule, MatCheckboxModule, MatTooltipModule, MatDividerModule, MatTabsModule, MatListModule,
     ChartsModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

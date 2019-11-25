@@ -25,7 +25,7 @@ import 'core-js/es7/reflect';
 import 'core-js/client/shim';
 import 'classlist.js';  // Run `npm install --save classlist.js`.
 //import 'intl';
-require('zone.js/dist/zone');
+//require('zone.js/dist/zone');
 // IE11 fix
 if (typeof SVGElement.prototype.contains == 'undefined') {
     SVGElement.prototype.contains = HTMLDivElement.prototype.contains;

@@ -3,7 +3,7 @@ import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { first, switchMap } from 'rxjs/operators';
-import { Observable, EMPTY } from 'rxjs';
+import { Observable, EMPTY, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { User } from '../Models/user';
 
@@ -21,9 +21,16 @@ export class AuthService {
     this.user = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
-          return this.afs.doc<User>('users/'+user.uid).valueChanges();
+          if (user.isAnonymous) {
+            console.log('user is anon');
+            return of(null)
+          } else {
+            console.log('user is: ', user);
+            return this.afs.doc<User>('users/'+user.uid).valueChanges();
+          }
         } else {
-          return EMPTY;
+          console.log('no user object');
+          return of(null)
         }
       })
     )
