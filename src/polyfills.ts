@@ -24,7 +24,8 @@ import 'core-js/es7/array';
 import 'core-js/es7/reflect';
 import 'core-js/client/shim';
 import 'classlist.js';  // Run `npm install --save classlist.js`.
-//import 'intl';
+import 'web-animations-js';
+import 'get-root-node-polyfill';
 //require('zone.js/dist/zone');
 // IE11 fix
 if (typeof SVGElement.prototype.contains == 'undefined') {

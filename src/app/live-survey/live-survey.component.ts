@@ -153,12 +153,18 @@ export class LiveSurveyComponent implements OnInit {
           if (res.hostPlan == Plan.Free) {
             console.log('uh oh, free loader ', res.activeParticipants.length)
             // If active participants over max list, then reroute user to room full notice
-            if (res.activeParticipants.length >= 50) {
-              this.router.navigate(['/surveyfull/',res.activeParticipants.length]);
+            if (res.activeParticipants) {
+              if (res.activeParticipants.length >= 50) {
+                this.router.navigate(['/surveyfull/',res.activeParticipants.length]);
+              } else {
+                this.survService.addUserAttendee(this.survOneTime, this.currentUser)
+                this.survService.removeUserAttendeeOnDisconnect(this.survOneTime, this.currentUser)
+              }
             } else {
               this.survService.addUserAttendee(this.survOneTime, this.currentUser)
               this.survService.removeUserAttendeeOnDisconnect(this.survOneTime, this.currentUser)
             }
+            
           } else {
             this.survService.addUserAttendee(this.survOneTime, this.currentUser)
             this.survService.removeUserAttendeeOnDisconnect(this.survOneTime, this.currentUser)
