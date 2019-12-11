@@ -37,7 +37,7 @@
         <br/>
         <mat-divider></mat-divider><br/>
       
-        <div *ngIf="liveQuestion" id="liveQuestion" class="full left">
+        <div *ngIf="liveQuestion; else waitingQuestion" id="liveQuestion" class="full left">
             <button *ngIf="auth.userUid == host" mat-icon-button type="button" (click)="removeLiveQuestion()" aria-label="close" class="stick-top-right-relative">
                 <mat-icon>close</mat-icon>
             </button>
@@ -82,7 +82,7 @@
             <br/>
             <br/>
             <h3>Results</h3>
-            <div *ngIf="liveQuestion.answers" class="full-length">
+            <div *ngIf="liveQuestion.answers; else waitingAnswers" class="full-length">
                 <div *ngIf="liveQuestion.answers.length > 0 && liveQuestion.type == 'openText'">
                   <div class="flex space-center">
                     <div matTooltip="Overall sentiment score: {{liveQuestion.sentiment.score}}">Overall Sentiment: {{sentimentAssessment}}</div>
@@ -112,8 +112,14 @@
                       </canvas>
                   </div>
             </div>
+            <ng-template #waitingAnswers>
+              <div>waiting for answers</div>
+            </ng-template>
             
-        </div>  
+        </div> 
+        <ng-template #waitingQuestion>
+          <div>Waiting for host to launch a question...</div>
+        </ng-template> 
       <br/>
       <br/>
       <div class="center" *ngIf="(!auth.afAuth.auth.currentUser || auth.afAuth.auth.currentUser.isAnonymous)"><a class="no-style-black" [routerLink]="['/about']" target="_blank">What is Vybe Survey?</a></div>
